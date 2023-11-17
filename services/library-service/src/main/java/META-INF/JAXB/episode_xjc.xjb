@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="3.0" xmlns="https://jakarta.ee/xml/ns/jaxb">
+
+  <bindings scd="x-schema::tns" xmlns:tns="http://libraryservice.job4j.ru/model">
+    <schemaBindings map="false">
+      <package name="ru.job4j.libraryservice.model"/>
+    </schemaBindings>
+    <bindings scd="tns:getBookRequest">
+      <class ref="ru.job4j.libraryservice.model.GetBookRequest"/>
+    </bindings>
+    <bindings scd="tns:getBookResponse">
+      <class ref="ru.job4j.libraryservice.model.GetBookResponse"/>
+    </bindings>
+    <bindings scd="~tns:book">
+      <class ref="ru.job4j.libraryservice.model.Book"/>
+    </bindings>
+  </bindings>
+</bindings>
+
