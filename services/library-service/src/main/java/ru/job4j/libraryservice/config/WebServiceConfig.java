@@ -27,9 +27,9 @@ public class WebServiceConfig {
     @Bean(name = "books")
     public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema countriesSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-        wsdl11Definition.setPortTypeName("CountriesPort");
+        wsdl11Definition.setPortTypeName("BooksPort");
         wsdl11Definition.setLocationUri("/ws");
-        wsdl11Definition.setTargetNamespace("http://libraryservice.job4j.ru/model");
+        wsdl11Definition.setTargetNamespace("http://libraryservice.job4j.ru/ws");
         wsdl11Definition.setSchema(countriesSchema);
         return wsdl11Definition;
     }
