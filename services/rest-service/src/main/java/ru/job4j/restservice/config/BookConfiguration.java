@@ -3,7 +3,7 @@ package ru.job4j.restservice.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-import ru.job4j.restservice.client.BookClient;
+import ru.job4j.restservice.service.BookClient;
 
 @Configuration
 public class BookConfiguration {
@@ -16,7 +16,7 @@ public class BookConfiguration {
     }
 
     @Bean
-    public BookClient countryClient(Jaxb2Marshaller marshaller) {
+    public BookClient bookClient(Jaxb2Marshaller marshaller) {
         BookClient client = new BookClient();
         client.setDefaultUri("http://localhost:8081/ws");
         client.setMarshaller(marshaller);

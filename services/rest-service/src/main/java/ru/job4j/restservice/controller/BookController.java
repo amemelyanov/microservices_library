@@ -1,32 +1,51 @@
 package ru.job4j.restservice.controller;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.ws.soap.client.SoapFaultClientException;
+import ru.job4j.restservice.service.BookService;
+import ru.job4j.restservice.wsdl.BookInfo;
 
+import java.net.ConnectException;
 import java.util.*;
 
+@Slf4j
+@AllArgsConstructor
 @RestController
 @RequestMapping(value="v1/book")
 public class BookController {
 
-    @GetMapping("/all")
-    public ResponseEntity<List<String>> getAllBooks() {
-        List<String> result = new ArrayList<>();
-        result.add("{\"id\" : 1,\"name\" : \"nameOfBook1\"}");
-        result.add("{\"id\" : 2,\"name\" : \"nameOfBook1\"}");
-        result.add("{\"id\" : 3,\"name\" : \"nameOfBook1\"}");
-        return ResponseEntity.ok(result);
+    private final BookService bookService;
 
+    @GetMapping("/all")
+    public ResponseEntity<List<BookInfo>> findAll() {
+        return ResponseEntity.ok(bookService.findAll());
     }
 
     @GetMapping("/{bookId}")
-    public String getOneBook(@PathVariable String bookId) {
-        System.out.println(bookId);
-        String result = "{\"id\" : 1,\"name\" : \"nameOfBook1\"}";
-        return result;
+    public ResponseEntity<BookInfo> findById(@PathVariable Long bookId) {
+        return ResponseEntity.ok(bookService.findById(bookId));
+    }
+
+    @ExceptionHandler(value = {SoapFaultClientException.class})
+    @ResponseBody
+    public ResponseEntity<String> soapFaultClientException(Exception e) {
+        log.error(e.getLocalizedMessage());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(e.getLocalizedMessage());
+    }
+
+    @ExceptionHandler(value = {Exception.class})
+    @ResponseBody
+    public ResponseEntity<String> connectException(Exception e) {
+        log.error(e.getLocalizedMessage());
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(e.getLocalizedMessage());
     }
 
 }
