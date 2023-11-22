@@ -63,6 +63,11 @@
             <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -127,7 +132,7 @@
                 <configuration>
                     <packageName>ru.job4j.restservice.wsdl</packageName>
                     <wsdlUrls>
-                        <wsdlUrl>http://localhost:8081/ws/books.wsdl</wsdlUrl>
+                        <wsdlUrl>http://library-service:8081/ws/books.wsdl</wsdlUrl>
                     </wsdlUrls>
                     <sourceDestDir>${project.basedir}/src/main/java</sourceDestDir>
                     <destDir>${classesDir}</destDir>

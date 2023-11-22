@@ -12,15 +12,15 @@ public class BookClient extends WebServiceGatewaySupport {
     public FindBookByIdResponse findBookById(long bookId) {
         FindBookByIdRequest request = new FindBookByIdRequest();
         request.setBookId(bookId);
-        FindBookByIdResponse response = (FindBookByIdResponse) getWebServiceTemplate().marshalSendAndReceive(
-                request, new SoapActionCallback("http://localhost:8081/ws/findBookByIdRequest"));
+        FindBookByIdResponse response = (FindBookByIdResponse) getWebServiceTemplate().marshalSendAndReceive(request,
+                new SoapActionCallback("http://library-service:8081/ws/findBookByIdRequest"));
         return response;
     }
 
     public FindAllBooksResponse findAllBooks() {
         FindAllBooksRequest request = new FindAllBooksRequest();
-        FindAllBooksResponse response = (FindAllBooksResponse) getWebServiceTemplate().marshalSendAndReceive(
-                request, new SoapActionCallback("http://localhost:8081/ws/findAllBooksRequest"));
+        FindAllBooksResponse response = (FindAllBooksResponse) getWebServiceTemplate().marshalSendAndReceive(request,
+                new SoapActionCallback("http://library-service:8081/ws/findAllBooksRequest"));
         return response;
     }
 

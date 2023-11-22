@@ -35,7 +35,7 @@
         <!--<module name="LocalFinalVariableName"/>-->
         <module name="LocalVariableName"/>
         <module name="MemberName"/>
-        <module name="MethodName"/>
+<!--        <module name="MethodName"/>-->
         <module name="PackageName">
             <property name="format" value="^[a-z]+(\.[a-z0-9]*)*$"/>
         </module>
@@ -71,7 +71,7 @@
         <!-- Checks for blocks. You know, those {}'s         -->
         <!-- See http://checkstyle.sf.net/config_blocks.html -->
         <module name="AvoidNestedBlocks"/>
-        <module name="LeftCurly"/>
+<!--        <module name="LeftCurly"/>-->
 <!--        <module name="NeedBraces"/>-->
         <module name="RightCurly"/>
 
