@@ -1,0 +1,32 @@
+server:
+  port: 8072
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://eurekaserver:8070/eureka/
+
+
+spring:
+  cloud:
+    loadbalancer.ribbon.enabled: false
+    gateway:
+      routes:
+        - id: rest-service
+          uri: lb://rest-service
+          predicates:
+            - Path=/library/**
+          filters:
+            - RewritePath=/library/(?<path>.*), /$\{path}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        
+        
