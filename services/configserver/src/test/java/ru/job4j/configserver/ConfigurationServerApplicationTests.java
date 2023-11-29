@@ -1,4 +1,4 @@
-package com.optimagrowth.configserver;
+package ru.job4j.configserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

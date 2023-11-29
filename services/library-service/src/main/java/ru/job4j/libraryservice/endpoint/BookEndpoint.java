@@ -20,7 +20,6 @@ public class BookEndpoint {
     private static final String NAMESPACE_URI = "http://libraryservice.job4j.ru/ws";
 
     private final BookService bookService;
-    private final BookMapper bookMapper;
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "findBookByIdRequest")
     @ResponsePayload

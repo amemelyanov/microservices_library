@@ -6,3 +6,7 @@ spring:
     cloud:
         config:
             uri: http://configserver:8071
+    kafka:
+        bootstrap-servers: localhost:9092
+        consumer:
+          group-id: group-id

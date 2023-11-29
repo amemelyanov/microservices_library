@@ -1,6 +1,8 @@
 package ru.job4j.libraryservice.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.libraryservice.mapper.BookMapper;

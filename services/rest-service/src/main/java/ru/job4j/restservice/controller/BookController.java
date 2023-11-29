@@ -9,8 +9,7 @@ import org.springframework.ws.soap.client.SoapFaultClientException;
 import ru.job4j.restservice.service.BookService;
 import ru.job4j.restservice.wsdl.BookInfo;
 
-import java.net.ConnectException;
-import java.util.*;
+import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
