@@ -10,7 +10,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Service
-public class BookServiceImpl implements BookService {
+public class BookServiceSoapImpl implements BookService {
 
     private BookClient bookClient;
 

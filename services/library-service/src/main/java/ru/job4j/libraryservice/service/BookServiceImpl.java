@@ -29,5 +29,4 @@ public class BookServiceImpl implements BookService {
                 book -> bookInfoList.add(bookMapper.getBookInfoFromBook(book)));
         return bookInfoList;
      }
-
 }

@@ -6,7 +6,7 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import ru.job4j.restservice.service.BookClient;
 
 @Configuration
-public class BookConfiguration {
+public class SoapConfig {
 
     @Bean
     public Jaxb2Marshaller marshaller() {
