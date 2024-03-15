@@ -21,5 +21,6 @@ public class Book {
     private String author;
     private int pages;
     private int year;
+    private String cover;
 
 }

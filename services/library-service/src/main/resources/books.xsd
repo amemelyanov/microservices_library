@@ -44,6 +44,7 @@
             <xs:element name="author" type="xs:string"/>
             <xs:element name="pages" type="xs:int"/>
             <xs:element name="year" type="xs:int"/>
+            <xs:element name="cover" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>

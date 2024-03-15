@@ -23,6 +23,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *         &lt;element name="author" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="pages" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *         &lt;element name="year" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="cover" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -38,7 +39,8 @@ import jakarta.xml.bind.annotation.XmlType;
     "description",
     "author",
     "pages",
-    "year"
+    "year",
+    "cover"
 })
 public class BookInfo {
 
@@ -51,6 +53,8 @@ public class BookInfo {
     protected String author;
     protected int pages;
     protected int year;
+    @XmlElement(required = true)
+    protected String cover;
 
     /**
      * Gets the value of the id property.
@@ -170,6 +174,30 @@ public class BookInfo {
      */
     public void setYear(int value) {
         this.year = value;
+    }
+
+    /**
+     * Gets the value of the cover property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getCover() {
+        return cover;
+    }
+
+    /**
+     * Sets the value of the cover property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setCover(String value) {
+        this.cover = value;
     }
 
 }

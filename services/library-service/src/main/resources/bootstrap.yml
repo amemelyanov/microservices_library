@@ -14,3 +14,12 @@ library-project:
     reply-topics-by-id: library-topics-reply-by-id
     reply-topics-all: library-topics-reply-all
     consumer-group: library-kafka-group
+
+minio:
+    url: http://127.0.0.1:9000
+    bucket:
+        name: images
+  #minio.default.folder=images
+    access:
+        name: minioadmin
+        secret: minioadmin

@@ -17,7 +17,7 @@ import jakarta.xml.ws.WebServiceFeature;
  * Generated source version: 3.0
  * 
  */
-@WebServiceClient(name = "BooksPortService", targetNamespace = "http://libraryservice.job4j.ru/ws", wsdlLocation = "http://localhost:8081/ws/books.wsdl")
+@WebServiceClient(name = "BooksPortService", targetNamespace = "http://libraryservice.job4j.ru/ws", wsdlLocation = "http://library-service:8081/ws/books.wsdl")
 public class BooksPortService
     extends Service
 {
@@ -30,7 +30,7 @@ public class BooksPortService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://localhost:8081/ws/books.wsdl");
+            url = new URL("http://library-service:8081/ws/books.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

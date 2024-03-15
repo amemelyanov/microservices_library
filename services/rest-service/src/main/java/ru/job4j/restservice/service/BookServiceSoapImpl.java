@@ -2,6 +2,8 @@ package ru.job4j.restservice.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.job4j.restservice.mapper.BookMapper;
+import ru.job4j.restservice.model.Book;
 import ru.job4j.restservice.wsdl.BookInfo;
 import ru.job4j.restservice.wsdl.FindAllBooksResponse;
 import ru.job4j.restservice.wsdl.FindBookByIdResponse;

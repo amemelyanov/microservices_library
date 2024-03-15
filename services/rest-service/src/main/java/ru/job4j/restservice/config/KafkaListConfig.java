@@ -29,21 +29,21 @@ import java.util.Map;
 public class KafkaListConfig {
 
     @Value("${library-project.reply-topics-all}")
-    private String REPLY_TOPICS_ALL;
+    private String replyTopicsAll;
 
     @Value("${library-project.consumer-group}")
-    private String CONSUMER_GROUPS;
+    private String consumerGroups;
 
     @Value("${spring.kafka.bootstrap-servers}")
-    private String BOOTSTRAP_SERVERS;
+    private String bootstrapServers;
 
 
     @Bean
     public ConsumerFactory<String, KafkaMessage> consumerFactory2() {
         Map<String, Object> props = new HashMap<>();
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "ru.job4j.libraryservice.ws.BookInfo");
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, CONSUMER_GROUPS);
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, consumerGroups);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
                 "ru.job4j.restservice.deserializer.KafkaMessageDeserializer");
@@ -54,7 +54,7 @@ public class KafkaListConfig {
     public ProducerFactory<String, BookInfo> producerFactory2() {
         Map<String, Object> props = new HashMap<>();
         props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaProducerFactory<>(props, new StringSerializer(),
@@ -76,7 +76,7 @@ public class KafkaListConfig {
     public ConcurrentMessageListenerContainer<String, KafkaMessage> repliesContainer2(
             ConcurrentKafkaListenerContainerFactory<String, KafkaMessage> containerFactory2) {
         ConcurrentMessageListenerContainer<String, KafkaMessage> repliesContainer =
-                containerFactory2.createContainer(REPLY_TOPICS_ALL);
+                containerFactory2.createContainer(replyTopicsAll);
         repliesContainer.setAutoStartup(false);
         return repliesContainer;
     }

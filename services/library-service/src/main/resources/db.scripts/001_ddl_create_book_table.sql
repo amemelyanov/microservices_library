@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS book
     author      VARCHAR NOT NULL,
     genre       VARCHAR NOT NULL,
     pages       INT     NOT NULL,
-    year        INT     NOT NULL
+    year        INT     NOT NULL,
+    cover       VARCHAR
 );
 
 COMMENT ON TABLE book IS 'Книги';
@@ -17,3 +18,4 @@ COMMENT ON COLUMN book.genre IS 'Жанр книги';
 COMMENT ON COLUMN book.author IS 'Автор книги';
 COMMENT ON COLUMN book.pages IS 'Количество страниц';
 COMMENT ON COLUMN book.year IS 'Год выпуска книги';
+COMMENT ON COLUMN book.cover IS 'Наименование файлы обложки';
