@@ -8,6 +8,8 @@ spring:
             uri: http://configserver:8071
     kafka:
         bootstrap-servers: localhost:9092
+    main:
+        banner-mode: off
 
 library-project:
     send-topics-by-id: library-topics-by-id

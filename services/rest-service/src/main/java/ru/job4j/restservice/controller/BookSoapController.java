@@ -22,31 +22,35 @@ public class BookSoapController {
     private final BookService bookService;
     private final BookMapper bookMapper;
 
-    public BookSoapController(@Qualifier("bookServiceSoapImpl") BookService bookService
-    , BookMapper bookMapper) {
+    public BookSoapController(@Qualifier("bookServiceSoapImpl") BookService bookService,
+                              BookMapper bookMapper) {
         this.bookService = bookService;
         this.bookMapper = bookMapper;
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<Book>> findAll() {
+        log.info("Вызов метода findAll() класса BookSoapController");
         return ResponseEntity.ok(bookMapper.getListBookFromListBookInfo(bookService.findAll()));
     }
 
     @GetMapping("/{bookId}")
-    public ResponseEntity<Book> findById(@PathVariable Long bookId) throws Exception {
+    public ResponseEntity<Book> findById(@PathVariable Long bookId) {
+        log.info("Вызов метода findById() класса BookSoapController с параметром bookId = {}", bookId);
         return ResponseEntity.ok(bookMapper.getBookFromBookInfo(bookService.findById(bookId)));
     }
 
     @GetMapping(value = "/{bookId}/cover", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> findCoverById(@PathVariable Long bookId) throws Exception {
+    public ResponseEntity<byte[]> findCoverById(@PathVariable Long bookId) {
+        log.info("Вызов метода findCoverById() класса BookSoapController с параметром bookId = {}", bookId);
         return ResponseEntity.ok(bookMapper.getCoverFromBookInfo(bookService.findById(bookId)));
     }
 
     @ExceptionHandler(value = {SoapFaultClientException.class})
     @ResponseBody
     public ResponseEntity<String> soapFaultClientException(Exception e) {
-        log.error(e.getLocalizedMessage());
+        log.error("Вызов метода soapFaultClientException() класса BookSoapController при обработке исключения" +
+                " SoapFaultClientException", e);
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(e.getLocalizedMessage());
@@ -55,7 +59,7 @@ public class BookSoapController {
     @ExceptionHandler(value = {Exception.class})
     @ResponseBody
     public ResponseEntity<String> connectException(Exception e) {
-        log.error(e.getLocalizedMessage());
+        log.error("Вызов метода connectException() класса BookSoapController при обработке исключения Exception", e);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(e.getLocalizedMessage());
