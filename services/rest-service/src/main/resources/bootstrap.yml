@@ -8,12 +8,3 @@ spring:
             uri: http://configserver:8071
     kafka:
         bootstrap-servers: localhost:9092
-    main:
-        banner-mode: off
-
-library-project:
-    send-topics-by-id: library-topics-by-id
-    send-topics-all: library-topics-all
-    reply-topics-by-id: library-topics-reply-by-id
-    reply-topics-all: library-topics-reply-all
-    consumer-group: library-kafka-group
