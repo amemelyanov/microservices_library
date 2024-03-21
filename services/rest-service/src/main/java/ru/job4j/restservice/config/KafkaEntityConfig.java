@@ -63,7 +63,7 @@ public class KafkaEntityConfig {
             ConcurrentMessageListenerContainer<String, BookInfo> repliesContainer) {
         ReplyingKafkaTemplate<String, BookInfo, BookInfo> replyTemplate =
                 new ReplyingKafkaTemplate<>(producerFactory(),
-                repliesContainer);
+                        repliesContainer);
         replyTemplate.setDefaultReplyTimeout(Duration.ofSeconds(60));
         replyTemplate.setSharedReplyTopic(true);
         return replyTemplate;

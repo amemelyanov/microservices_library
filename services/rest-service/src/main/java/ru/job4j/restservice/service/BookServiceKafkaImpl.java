@@ -12,7 +12,6 @@ import org.springframework.kafka.requestreply.RequestReplyFuture;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import ru.job4j.restservice.mapper.BookMapper;
-import ru.job4j.restservice.model.Book;
 import ru.job4j.restservice.model.KafkaMessage;
 import ru.job4j.restservice.wsdl.BookInfo;
 
@@ -22,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 @Slf4j
 @NoArgsConstructor
-public class BookServiceKafkaImpl implements BookService{
+public class BookServiceKafkaImpl implements BookService {
 
     @Autowired
     private BookMapper bookMapper;

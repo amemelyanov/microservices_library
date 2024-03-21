@@ -5,7 +5,6 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
-import ru.job4j.libraryservice.mapper.BookMapper;
 import ru.job4j.libraryservice.service.BookService;
 import ru.job4j.libraryservice.ws.BookInfo;
 import ru.job4j.libraryservice.ws.FindAllBooksResponse;

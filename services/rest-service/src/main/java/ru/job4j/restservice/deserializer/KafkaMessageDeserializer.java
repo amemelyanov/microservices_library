@@ -19,7 +19,7 @@ public class KafkaMessageDeserializer implements Deserializer<KafkaMessage> {
     @Override
     public KafkaMessage deserialize(String topic, byte[] data) {
         try {
-            if (data == null){
+            if (data == null) {
                 log.info("Null получен для десериализации");
                 return null;
             }

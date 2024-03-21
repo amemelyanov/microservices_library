@@ -12,14 +12,13 @@ import org.springframework.ws.soap.client.SoapFaultClientException;
 import ru.job4j.restservice.mapper.BookMapper;
 import ru.job4j.restservice.model.Book;
 import ru.job4j.restservice.service.BookService;
-import ru.job4j.restservice.wsdl.BookInfo;
 
 import java.util.List;
 
 @Tag(name = "Book SOAP Controller", description = "Book SOAP API")
 @Slf4j
 @RestController
-@RequestMapping(value="v1/soap/book")
+@RequestMapping(value = "v1/soap/book")
 public class BookSoapController {
 
     private final BookService bookService;

@@ -17,13 +17,13 @@ public class KafkaMessageSerializer implements Serializer<KafkaMessage> {
     @Override
     public byte[] serialize(String topic, KafkaMessage data) {
         try {
-            if (data == null){
-                System.out.println("Null received at serializing");
+            if (data == null) {
+                System.out.println("Null получен ждя сериализации");
                 return null;
             }
             return objectMapper.writeValueAsBytes(data);
         } catch (Exception e) {
-            throw new SerializationException("Error when serializing KafkaMessage to byte[]");
+            throw new SerializationException("Ошибка при сериализации KafkaMessage to byte[]");
         }
     }
 

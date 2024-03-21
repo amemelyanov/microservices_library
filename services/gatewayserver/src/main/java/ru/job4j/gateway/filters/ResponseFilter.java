@@ -13,18 +13,18 @@ import reactor.core.publisher.Mono;
 @Configuration
 public class ResponseFilter {
 
-	private final FilterUtils filterUtils;
- 
+    private final FilterUtils filterUtils;
+
     @Bean
     public GlobalFilter postGlobalFilter() {
         return (exchange, chain) -> {
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
-            	  HttpHeaders requestHeaders = exchange.getRequest().getHeaders();
-            	  String correlationId = filterUtils.getCorrelationId(requestHeaders);
-            	  log.debug("Adding the correlation id to the outbound headers. {}", correlationId);
-                  exchange.getResponse().getHeaders().add(FilterUtils.CORRELATION_ID, correlationId);
-                  log.debug("Completing outgoing request for {}.", exchange.getRequest().getURI());
-              }));
+                HttpHeaders requestHeaders = exchange.getRequest().getHeaders();
+                String correlationId = filterUtils.getCorrelationId(requestHeaders);
+                log.debug("Добавление correlation id в исходные headers. {}", correlationId);
+                exchange.getResponse().getHeaders().add(FilterUtils.CORRELATION_ID, correlationId);
+                log.debug("Завершение исходщего запроса for {}.", exchange.getRequest().getURI());
+            }));
         };
     }
 }

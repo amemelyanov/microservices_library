@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class KafkaObject<V> {
-  private V data;
+    private V data;
 }

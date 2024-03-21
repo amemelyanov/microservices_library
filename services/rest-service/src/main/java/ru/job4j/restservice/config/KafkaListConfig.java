@@ -64,7 +64,7 @@ public class KafkaListConfig {
             ConcurrentMessageListenerContainer<String, KafkaMessage> repliesContainer2) {
         ReplyingKafkaTemplate<String, BookInfo, KafkaMessage> replyTemplate =
                 new ReplyingKafkaTemplate<>(producerFactory2(),
-                repliesContainer2);
+                        repliesContainer2);
         replyTemplate.setDefaultReplyTimeout(Duration.ofSeconds(60));
         replyTemplate.setSharedReplyTopic(true);
         return replyTemplate;

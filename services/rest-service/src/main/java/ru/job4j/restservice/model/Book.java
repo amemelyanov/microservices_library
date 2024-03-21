@@ -1,6 +1,9 @@
 package ru.job4j.restservice.model;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Builder
 @ToString

@@ -28,5 +28,5 @@ public class BookServiceImpl implements BookService {
         bookRepository.findAll().forEach(
                 book -> bookInfoList.add(bookMapper.getBookInfoFromBook(book)));
         return bookInfoList;
-     }
+    }
 }

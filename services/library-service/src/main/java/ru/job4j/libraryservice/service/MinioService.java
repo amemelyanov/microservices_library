@@ -28,13 +28,13 @@ public class MinioService {
         try {
             createBucket();
         } catch (Exception e) {
-            log.error("Image upload failed", e);
+            log.error("Загрузка картинки неудачна", e);
         }
         InputStream inputStream = null;
         try {
             inputStream = new FileInputStream(file);
         } catch (Exception e) {
-            log.error("Image upload failed", e);
+            log.error("Загрузка картинки неудачна", e);
         }
         saveImage(inputStream, name);
         return name;

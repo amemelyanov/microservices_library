@@ -15,14 +15,14 @@ public class KafkaController {
 
     private final BookService bookService;
 
-    @KafkaListener(groupId="${library-project.consumer-group}", topics = "${library-project.send-topics-by-id}",
+    @KafkaListener(groupId = "${library-project.consumer-group}", topics = "${library-project.send-topics-by-id}",
             containerFactory = "kafkaListenerContainerFactory")
     @SendTo
     public BookInfo listenById(ConsumerRecord<String, BookInfo> consumerRecord) {
         return bookService.findById(consumerRecord.value().getId());
     }
 
-    @KafkaListener(groupId="${library-project.consumer-group}", topics = "${library-project.send-topics-all}",
+    @KafkaListener(groupId = "${library-project.consumer-group}", topics = "${library-project.send-topics-all}",
             containerFactory = "listKafkaListenerContainerFactory")
     @SendTo
     public KafkaMessage listenAll(ConsumerRecord<String, BookInfo> consumerRecord) {

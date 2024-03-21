@@ -17,7 +17,7 @@ import java.util.List;
 @Tag(name = "Book Kafka Controller", description = "Book Kafka API")
 @Slf4j
 @RestController
-@RequestMapping(value="v1/kafka/book")
+@RequestMapping(value = "v1/kafka/book")
 public class BookKafkaController {
 
     private final BookService bookService;

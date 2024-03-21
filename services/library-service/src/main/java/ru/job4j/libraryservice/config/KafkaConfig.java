@@ -15,7 +15,6 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import ru.job4j.libraryservice.model.KafkaMessage;
 import ru.job4j.libraryservice.ws.BookInfo;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
