@@ -6,7 +6,7 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import ru.job4j.libraryservice.service.BookService;
-import ru.job4j.libraryservice.ws.BookInfo;
+import ru.job4j.libraryservice.ws.BookDto;
 import ru.job4j.libraryservice.ws.FindAllBooksResponse;
 import ru.job4j.libraryservice.ws.FindBookByIdRequest;
 import ru.job4j.libraryservice.ws.FindBookByIdResponse;
@@ -24,7 +24,7 @@ public class BookEndpoint {
     @ResponsePayload
     public FindBookByIdResponse findBookById(@RequestPayload FindBookByIdRequest request) {
         FindBookByIdResponse response = new FindBookByIdResponse();
-        response.setBookInfo(bookService.findById(request.getBookId()));
+        response.setBookDto(bookService.findById(request.getBookId()));
         return response;
     }
 
@@ -32,8 +32,8 @@ public class BookEndpoint {
     @ResponsePayload
     public FindAllBooksResponse findAllBooks() {
         FindAllBooksResponse response = new FindAllBooksResponse();
-        List<BookInfo> booksInfoList = bookService.findAll();
-        response.getBookInfo().addAll(booksInfoList);
+        List<BookDto> booksInfoList = bookService.findAll();
+        response.getBookDto().addAll(booksInfoList);
         return response;
     }
 }

@@ -16,7 +16,7 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
-import ru.job4j.restservice.wsdl.BookInfo;
+import ru.job4j.restservice.wsdl.BookDto;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -34,9 +34,8 @@ public class KafkaEntityConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-
     @Bean
-    public ConsumerFactory<String, BookInfo> consumerFactory() {
+    public ConsumerFactory<String, BookDto> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, consumerGroups);
@@ -44,11 +43,11 @@ public class KafkaEntityConfig {
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaConsumerFactory<>(props,
                 new StringDeserializer(),
-                new JsonDeserializer<>(BookInfo.class));
+                new JsonDeserializer<>(BookDto.class));
     }
 
     @Bean
-    public ProducerFactory<String, BookInfo> producerFactory() {
+    public ProducerFactory<String, BookDto> producerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -59,9 +58,9 @@ public class KafkaEntityConfig {
     }
 
     @Bean
-    public ReplyingKafkaTemplate<String, BookInfo, BookInfo> replyingTemplate(
-            ConcurrentMessageListenerContainer<String, BookInfo> repliesContainer) {
-        ReplyingKafkaTemplate<String, BookInfo, BookInfo> replyTemplate =
+    public ReplyingKafkaTemplate<String, BookDto, BookDto> replyingTemplate(
+            ConcurrentMessageListenerContainer<String, BookDto> repliesContainer) {
+        ReplyingKafkaTemplate<String, BookDto, BookDto> replyTemplate =
                 new ReplyingKafkaTemplate<>(producerFactory(),
                         repliesContainer);
         replyTemplate.setDefaultReplyTimeout(Duration.ofSeconds(60));
@@ -70,9 +69,9 @@ public class KafkaEntityConfig {
     }
 
     @Bean
-    public ConcurrentMessageListenerContainer<String, BookInfo> repliesContainer(
-            ConcurrentKafkaListenerContainerFactory<String, BookInfo> containerFactory) {
-        ConcurrentMessageListenerContainer<String, BookInfo> repliesContainer =
+    public ConcurrentMessageListenerContainer<String, BookDto> repliesContainer(
+            ConcurrentKafkaListenerContainerFactory<String, BookDto> containerFactory) {
+        ConcurrentMessageListenerContainer<String, BookDto> repliesContainer =
                 containerFactory.createContainer(replyTopicsById);
         repliesContainer.setAutoStartup(false);
         return repliesContainer;
@@ -80,8 +79,8 @@ public class KafkaEntityConfig {
 
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, BookInfo> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, BookInfo> factory =
+    public ConcurrentKafkaListenerContainerFactory<String, BookDto> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, BookDto> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;

@@ -34,28 +34,28 @@ public class BookSoapController {
     @GetMapping("/all")
     public ResponseEntity<List<Book>> findAll() {
         log.info("Вызов метода findAll() класса BookSoapController");
-        return ResponseEntity.ok(bookMapper.getListBookFromListBookInfo(bookService.findAll()));
+        return ResponseEntity.ok(bookMapper.getListBookFromListBookDto(bookService.findAll()));
     }
 
     @Operation(summary = "Получение книги по id посредством внутреннего взаимодействия на основе SOAP")
     @GetMapping("/{bookId}")
     public ResponseEntity<Book> findById(@PathVariable Long bookId) {
         log.info("Вызов метода findById() класса BookSoapController с параметром bookId = {}", bookId);
-        return ResponseEntity.ok(bookMapper.getBookFromBookInfo(bookService.findById(bookId)));
+        return ResponseEntity.ok(bookMapper.getBookFromBookDto(bookService.findById(bookId)));
     }
 
     @Operation(summary = "Получение обложки книги по id посредством внутреннего взаимодействия на основе SOAP")
     @GetMapping(value = "/{bookId}/cover", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> findCoverById(@PathVariable Long bookId) {
         log.info("Вызов метода findCoverById() класса BookSoapController с параметром bookId = {}", bookId);
-        return ResponseEntity.ok(bookMapper.getCoverFromBookInfo(bookService.findById(bookId)));
+        return ResponseEntity.ok(bookMapper.getCoverFromBookDto(bookService.findById(bookId)));
     }
 
     @ExceptionHandler(value = {SoapFaultClientException.class})
     @ResponseBody
     public ResponseEntity<String> soapFaultClientException(Exception e) {
-        log.error("Вызов метода soapFaultClientException() класса BookSoapController при обработке исключения" +
-                " SoapFaultClientException", e);
+        log.error("Вызов метода soapFaultClientException() класса BookSoapController при обработке исключения"
+                + " SoapFaultClientException", e);
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(e.getLocalizedMessage());

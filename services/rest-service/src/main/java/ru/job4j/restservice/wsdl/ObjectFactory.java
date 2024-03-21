@@ -46,11 +46,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link BookInfo }
+     * Create an instance of {@link BookDto }
      * 
      */
-    public BookInfo createBookInfo() {
-        return new BookInfo();
+    public BookDto createBookDto() {
+        return new BookDto();
     }
 
     /**

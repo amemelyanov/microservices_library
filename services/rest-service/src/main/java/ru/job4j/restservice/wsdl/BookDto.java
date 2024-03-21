@@ -8,12 +8,12 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for bookInfo complex type.
+ * <p>Java class for bookDto complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="bookInfo"&gt;
+ * &lt;complexType name="bookDto"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
@@ -33,7 +33,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "bookInfo", propOrder = {
+@XmlType(name = "bookDto", propOrder = {
     "id",
     "name",
     "description",
@@ -42,7 +42,7 @@ import jakarta.xml.bind.annotation.XmlType;
     "year",
     "cover"
 })
-public class BookInfo {
+public class BookDto {
 
     protected long id;
     @XmlElement(required = true)

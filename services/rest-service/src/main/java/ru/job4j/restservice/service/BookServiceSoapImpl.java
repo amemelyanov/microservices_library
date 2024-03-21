@@ -3,7 +3,7 @@ package ru.job4j.restservice.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.job4j.restservice.wsdl.BookInfo;
+import ru.job4j.restservice.wsdl.BookDto;
 import ru.job4j.restservice.wsdl.FindAllBooksResponse;
 import ru.job4j.restservice.wsdl.FindBookByIdResponse;
 
@@ -17,16 +17,16 @@ public class BookServiceSoapImpl implements BookService {
     private BookClient bookClient;
 
     @Override
-    public BookInfo findById(Long bookId) {
+    public BookDto findById(Long bookId) {
         log.info("Вызов метода findById() класса BookServiceSoapImpl с параметром bookId = {}", bookId);
         FindBookByIdResponse response = bookClient.findBookById(bookId);
-        return response.getBookInfo();
+        return response.getBookDto();
     }
 
     @Override
-    public List<BookInfo> findAll() {
+    public List<BookDto> findAll() {
         log.info("Вызов метода findAll() класса BookServiceSoapImpl");
         FindAllBooksResponse allBooks = bookClient.findAllBooks();
-        return allBooks.getBookInfo();
+        return allBooks.getBookDto();
     }
 }

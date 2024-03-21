@@ -16,8 +16,8 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
-import ru.job4j.restservice.model.KafkaMessage;
-import ru.job4j.restservice.wsdl.BookInfo;
+import ru.job4j.restservice.dto.ListBookDto;
+import ru.job4j.restservice.wsdl.BookDto;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -37,19 +37,20 @@ public class KafkaListConfig {
 
 
     @Bean
-    public ConsumerFactory<String, KafkaMessage> consumerFactory2() {
+    public ConsumerFactory<String, ListBookDto> consumerFactory2() {
         Map<String, Object> props = new HashMap<>();
-        props.put(JsonDeserializer.TRUSTED_PACKAGES, "ru.job4j.libraryservice.ws.BookInfo");
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "ru.job4j.libraryservice.ws.BookDto");
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, consumerGroups);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-                "ru.job4j.restservice.deserializer.KafkaMessageDeserializer");
-        return new DefaultKafkaConsumerFactory<>(props);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,JsonSerializer.class);
+        return new DefaultKafkaConsumerFactory<>(props,
+                new StringDeserializer(),
+                new JsonDeserializer<>(ListBookDto.class));
     }
 
     @Bean
-    public ProducerFactory<String, BookInfo> producerFactory2() {
+    public ProducerFactory<String, BookDto> producerFactory2() {
         Map<String, Object> props = new HashMap<>();
         props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -60,9 +61,9 @@ public class KafkaListConfig {
     }
 
     @Bean
-    public ReplyingKafkaTemplate<String, BookInfo, KafkaMessage> replyingTemplate2(
-            ConcurrentMessageListenerContainer<String, KafkaMessage> repliesContainer2) {
-        ReplyingKafkaTemplate<String, BookInfo, KafkaMessage> replyTemplate =
+    public ReplyingKafkaTemplate<String, BookDto, ListBookDto> replyingTemplate2(
+            ConcurrentMessageListenerContainer<String, ListBookDto> repliesContainer2) {
+        ReplyingKafkaTemplate<String, BookDto, ListBookDto> replyTemplate =
                 new ReplyingKafkaTemplate<>(producerFactory2(),
                         repliesContainer2);
         replyTemplate.setDefaultReplyTimeout(Duration.ofSeconds(60));
@@ -71,9 +72,9 @@ public class KafkaListConfig {
     }
 
     @Bean
-    public ConcurrentMessageListenerContainer<String, KafkaMessage> repliesContainer2(
-            ConcurrentKafkaListenerContainerFactory<String, KafkaMessage> containerFactory2) {
-        ConcurrentMessageListenerContainer<String, KafkaMessage> repliesContainer =
+    public ConcurrentMessageListenerContainer<String, ListBookDto> repliesContainer2(
+            ConcurrentKafkaListenerContainerFactory<String, ListBookDto> containerFactory2) {
+        ConcurrentMessageListenerContainer<String, ListBookDto> repliesContainer =
                 containerFactory2.createContainer(replyTopicsAll);
         repliesContainer.setAutoStartup(false);
         return repliesContainer;
@@ -81,8 +82,8 @@ public class KafkaListConfig {
 
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, KafkaMessage> kafkaListenerContainerFactory2() {
-        ConcurrentKafkaListenerContainerFactory<String, KafkaMessage> factory =
+    public ConcurrentKafkaListenerContainerFactory<String, ListBookDto> kafkaListenerContainerFactory2() {
+        ConcurrentKafkaListenerContainerFactory<String, ListBookDto> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory2());
         return factory;

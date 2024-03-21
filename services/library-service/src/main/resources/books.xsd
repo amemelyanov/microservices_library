@@ -12,7 +12,7 @@
     <xs:element name="findBookByIdResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="bookInfo" type="tns:bookInfo"/>
+                <xs:element name="bookDto" type="tns:bookDto"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -24,7 +24,7 @@
     <xs:element name="findAllBooksResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="bookInfo" type="tns:bookInfo" maxOccurs="unbounded"/>
+                <xs:element name="bookDto" type="tns:bookDto" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -36,7 +36,7 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="bookInfo">
+    <xs:complexType name="bookDto">
         <xs:sequence>
             <xs:element name="id" type="xs:long"/>
             <xs:element name="name" type="xs:string"/>

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.libraryservice.mapper.BookMapper;
 import ru.job4j.libraryservice.repository.BookRepository;
-import ru.job4j.libraryservice.ws.BookInfo;
+import ru.job4j.libraryservice.ws.BookDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +18,15 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
-    public BookInfo findById(Long id) {
-        return bookMapper.getBookInfoFromBook(bookRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("Book could not found for given id:" + id)));
+    public BookDto findById(Long id) {
+        return bookMapper.getBookDtoFromBook(bookRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Книга не найдена для данного id:" + id)));
     }
 
-    public List<BookInfo> findAll() {
-        List<BookInfo> bookInfoList = new ArrayList<>();
+    public List<BookDto> findAll() {
+        List<BookDto> bookDtoList = new ArrayList<>();
         bookRepository.findAll().forEach(
-                book -> bookInfoList.add(bookMapper.getBookInfoFromBook(book)));
-        return bookInfoList;
+                book -> bookDtoList.add(bookMapper.getBookDtoFromBook(book)));
+        return bookDtoList;
     }
 }

@@ -1,4 +1,4 @@
-INSERT INTO book (name, description, author, genre, pages, year, cover)
+INSERT INTO book (name, description, author, genre, pages, year, cover_name)
 VALUES ('Война и мир',
         '«Война и мир» Л. Н. Толстого — книга на все времена. Кажется, что она ' ||
         'существовала всегда, настолько знакомым кажется текст, едва мы открываем первые страницы ' ||
@@ -10,7 +10,7 @@ VALUES ('Война и мир',
         'и которую учит любить Толстой.',
         'Толстой Л.Н.', 'Историческая проза', 2147, 2022, 'war_and_peace.jpg');
 
-INSERT INTO book (name, description, author, genre, pages, year, cover)
+INSERT INTO book (name, description, author, genre, pages, year, cover_name)
 VALUES ('Граф Монте-Кристо',
         'Неоднократно экранизированную историю молодого моряка Эдмона Дантеса, заточенного по подлому навету' ||
         ' в зловещий замок Иф, совершившего оттуда дерзкий побег, ставшего обладателем несметных богатств острова ' ||
@@ -19,7 +19,7 @@ VALUES ('Граф Монте-Кристо',
         'перипетии.',
         'Дюма А.', 'Приключения', 1652, 2021, 'the_count_of_monte_cristo.jpg');
 
-INSERT INTO book (name, description, author, genre, pages, year, cover)
+INSERT INTO book (name, description, author, genre, pages, year, cover_name)
 VALUES ('Фаворит',
         'Роман Фаворит  многоплановое произведение, в котором поднят огромный пласт исторической ' ||
         'действительности, дано широкое полотно жизни России второй половины XVIII века. Автор изображает эпоху через ' ||

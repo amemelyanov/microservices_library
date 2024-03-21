@@ -1,12 +1,12 @@
 package ru.job4j.libraryservice.service;
 
-import ru.job4j.libraryservice.ws.BookInfo;
+import ru.job4j.libraryservice.ws.BookDto;
 
 import java.util.List;
 
 public interface BookService {
 
-    BookInfo findById(Long id);
+    BookDto findById(Long id);
 
-    List<BookInfo> findAll();
+    List<BookDto> findAll();
 }

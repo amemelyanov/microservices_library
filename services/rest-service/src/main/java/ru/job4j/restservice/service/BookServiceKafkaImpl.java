@@ -12,8 +12,8 @@ import org.springframework.kafka.requestreply.RequestReplyFuture;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import ru.job4j.restservice.mapper.BookMapper;
-import ru.job4j.restservice.model.KafkaMessage;
-import ru.job4j.restservice.wsdl.BookInfo;
+import ru.job4j.restservice.dto.ListBookDto;
+import ru.job4j.restservice.wsdl.BookDto;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -27,10 +27,10 @@ public class BookServiceKafkaImpl implements BookService {
     private BookMapper bookMapper;
 
     @Autowired
-    private ReplyingKafkaTemplate<String, BookInfo, BookInfo> templateById;
+    private ReplyingKafkaTemplate<String, BookDto, BookDto> templateById;
 
     @Autowired
-    private ReplyingKafkaTemplate<String, BookInfo, KafkaMessage> templateAll;
+    private ReplyingKafkaTemplate<String, BookDto, ListBookDto> templateAll;
 
     @Value("${library-project.send-topics-by-id}")
     private String sendTopicsById;
@@ -40,50 +40,50 @@ public class BookServiceKafkaImpl implements BookService {
 
     @SneakyThrows
     @Override
-    public BookInfo findById(Long bookId) {
+    public BookDto findById(Long bookId) {
         log.info("Вызов метода findById() класса BookServiceKafkaImpl с параметром bookId = {}", bookId);
-        BookInfo bookInfo = new BookInfo();
-        bookInfo.setId(bookId);
-        return kafkaRequestReplyById(bookInfo);
+        BookDto bookDto = new BookDto();
+        bookDto.setId(bookId);
+        return kafkaRequestReplyById(bookDto);
     }
 
     @SneakyThrows
     @Override
-    public List<BookInfo> findAll() {
+    public List<BookDto> findAll() {
         log.info("Вызов метода findAll() класса BookServiceKafkaImpl");
-        BookInfo bookInfo = new BookInfo();
-        bookInfo.setId(0);
-        return kafkaRequestReplyAll(bookInfo);
+        BookDto bookDto = new BookDto();
+        bookDto.setId(0);
+        return kafkaRequestReplyAll(bookDto);
     }
 
-    private BookInfo kafkaRequestReplyById(BookInfo bookInfo) throws Exception {
+    private BookDto kafkaRequestReplyById(BookDto bookDto) throws Exception {
         log.info("Вызов метода kafkaRequestReplyById() класса BookServiceKafkaImpl с параметром "
-                + "bookInfo = {}", bookInfo);
-        ProducerRecord<String, BookInfo> record = new ProducerRecord<>(sendTopicsById, bookInfo);
-        RequestReplyFuture<String, BookInfo, BookInfo> replyFuture =
+                + "bookInfo = {}", bookDto);
+        ProducerRecord<String, BookDto> record = new ProducerRecord<>(sendTopicsById, bookDto);
+        RequestReplyFuture<String, BookDto, BookDto> replyFuture =
                 templateById.sendAndReceive(record);
-        SendResult<String, BookInfo> sendResult = replyFuture
+        SendResult<String, BookDto> sendResult = replyFuture
                 .getSendFuture()
                 .get(60, TimeUnit.SECONDS);
-        ConsumerRecord<String, BookInfo> consumerRecord = replyFuture
+        ConsumerRecord<String, BookDto> consumerRecord = replyFuture
                 .get(60, TimeUnit.SECONDS);
-        BookInfo result = consumerRecord.value();
+        BookDto result = consumerRecord.value();
         log.info("Получен ответ от library-service через Kafka в методе kafkaRequestReplyById() "
                 + "класса BookServiceKafkaImpl с объектом {}", result);
         return result;
     }
 
-    private List<BookInfo> kafkaRequestReplyAll(BookInfo bookInfo) throws Exception {
+    private List<BookDto> kafkaRequestReplyAll(BookDto bookDto) throws Exception {
         log.info("Вызов метода kafkaRequestReplyAll() класса BookServiceKafkaImpl с параметром "
-                + "bookInfo = {}", bookInfo);
-        ProducerRecord<String, BookInfo> record = new ProducerRecord<>(sendTopicsAll, bookInfo);
-        RequestReplyFuture<String, BookInfo, KafkaMessage> replyFuture =
+                + "bookInfo = {}", bookDto);
+        ProducerRecord<String, BookDto> record = new ProducerRecord<>(sendTopicsAll, bookDto);
+        RequestReplyFuture<String, BookDto, ListBookDto> replyFuture =
                 templateAll.sendAndReceive(record);
-        ConsumerRecord<String, KafkaMessage> consumerRecord = replyFuture
+        ConsumerRecord<String, ListBookDto> consumerRecord = replyFuture
                 .get(60, TimeUnit.SECONDS);
-        List<BookInfo> bookInfos = consumerRecord.value().getData();
+        List<BookDto> bookDtoList = consumerRecord.value().getData();
         log.info("Получен ответ от library-service через Kafka в методе kafkaRequestReplyById() "
-                + "класса BookServiceKafkaImpl с объектом {}", bookInfos);
-        return bookInfos;
+                + "класса BookServiceKafkaImpl с объектом {}", bookDtoList);
+        return bookDtoList;
     }
 }
