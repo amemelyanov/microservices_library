@@ -11,7 +11,7 @@ import ru.job4j.restservice.wsdl.FindBookByIdResponse;
 @Slf4j
 public class BookClient extends WebServiceGatewaySupport {
 
-    public FindBookByIdResponse findBookById(Long bookId) {
+    public FindBookByIdResponse findBookById(long bookId) {
         log.info("Вызов метода findBookById() класса BookClient с параметром bookId = {}", bookId);
         FindBookByIdRequest request = new FindBookByIdRequest();
         request.setBookId(bookId);

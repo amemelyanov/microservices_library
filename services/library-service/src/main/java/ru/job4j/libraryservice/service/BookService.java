@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BookService {
 
-    BookDto findById(Long id);
+    BookDto findById(long id);
 
     List<BookDto> findAll();
 }

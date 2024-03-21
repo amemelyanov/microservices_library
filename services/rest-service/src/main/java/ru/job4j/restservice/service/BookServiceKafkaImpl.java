@@ -11,6 +11,7 @@ import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
 import org.springframework.kafka.requestreply.RequestReplyFuture;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
+import ru.job4j.restservice.exception.ResourceNotFoundException;
 import ru.job4j.restservice.mapper.BookMapper;
 import ru.job4j.restservice.dto.ListBookDto;
 import ru.job4j.restservice.wsdl.BookDto;
@@ -40,10 +41,14 @@ public class BookServiceKafkaImpl implements BookService {
 
     @SneakyThrows
     @Override
-    public BookDto findById(Long bookId) {
+    public BookDto findById(long bookId) {
         log.info("Вызов метода findById() класса BookServiceKafkaImpl с параметром bookId = {}", bookId);
         BookDto bookDto = new BookDto();
         bookDto.setId(bookId);
+        BookDto replyBookDto = kafkaRequestReplyById(bookDto);
+        if (replyBookDto.getId() == 0) {
+            throw new ResourceNotFoundException("Не найдена книга для данного id: " + bookId);
+        }
         return kafkaRequestReplyById(bookDto);
     }
 

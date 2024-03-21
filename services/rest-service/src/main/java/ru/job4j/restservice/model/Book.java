@@ -11,7 +11,7 @@ import lombok.ToString;
 @Data
 public class Book {
 
-    private Long id;
+    private long id;
     private String name;
     private String description;
     private String author;

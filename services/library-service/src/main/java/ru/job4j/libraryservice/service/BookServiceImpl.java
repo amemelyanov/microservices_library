@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.libraryservice.mapper.BookMapper;
+import ru.job4j.libraryservice.model.Book;
 import ru.job4j.libraryservice.repository.BookRepository;
 import ru.job4j.libraryservice.ws.BookDto;
 
@@ -18,9 +19,9 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
-    public BookDto findById(Long id) {
+    public BookDto findById(long id) {
         return bookMapper.getBookDtoFromBook(bookRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("Книга не найдена для данного id:" + id)));
+                .orElse(new Book()));
     }
 
     public List<BookDto> findAll() {

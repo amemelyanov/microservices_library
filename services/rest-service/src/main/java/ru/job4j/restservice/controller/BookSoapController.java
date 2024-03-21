@@ -39,14 +39,14 @@ public class BookSoapController {
 
     @Operation(summary = "Получение книги по id посредством внутреннего взаимодействия на основе SOAP")
     @GetMapping("/{bookId}")
-    public ResponseEntity<Book> findById(@PathVariable Long bookId) {
+    public ResponseEntity<Book> findById(@PathVariable long bookId) {
         log.info("Вызов метода findById() класса BookSoapController с параметром bookId = {}", bookId);
         return ResponseEntity.ok(bookMapper.getBookFromBookDto(bookService.findById(bookId)));
     }
 
     @Operation(summary = "Получение обложки книги по id посредством внутреннего взаимодействия на основе SOAP")
     @GetMapping(value = "/{bookId}/cover", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> findCoverById(@PathVariable Long bookId) {
+    public ResponseEntity<byte[]> findCoverById(@PathVariable long bookId) {
         log.info("Вызов метода findCoverById() класса BookSoapController с параметром bookId = {}", bookId);
         return ResponseEntity.ok(bookMapper.getCoverFromBookDto(bookService.findById(bookId)));
     }
