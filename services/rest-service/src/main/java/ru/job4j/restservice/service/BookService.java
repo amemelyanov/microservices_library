@@ -1,12 +1,14 @@
 package ru.job4j.restservice.service;
 
-import ru.job4j.restservice.wsdl.BookDto;
+import ru.job4j.restservice.model.Book;
 
 import java.util.List;
 
 public interface BookService {
 
-    BookDto findById(long id);
+    Book findById(long bookId);
 
-    List<BookDto> findAll();
+    List<Book> findAll();
+
+    byte[] findCoverById(long bookId);
 }

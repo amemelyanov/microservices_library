@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ws.soap.client.SoapFaultClientException;
-import ru.job4j.restservice.mapper.BookMapper;
 import ru.job4j.restservice.model.Book;
 import ru.job4j.restservice.service.BookService;
 
@@ -22,33 +21,30 @@ import java.util.List;
 public class BookSoapController {
 
     private final BookService bookService;
-    private final BookMapper bookMapper;
 
-    public BookSoapController(@Qualifier("bookServiceSoapImpl") BookService bookService,
-                              BookMapper bookMapper) {
+    public BookSoapController(@Qualifier("bookServiceSoap") BookService bookService) {
         this.bookService = bookService;
-        this.bookMapper = bookMapper;
     }
 
     @Operation(summary = "Получение списка всех книг посредством внутреннего взаимодействия на основе SOAP")
     @GetMapping("/all")
     public ResponseEntity<List<Book>> findAll() {
         log.info("Вызов метода findAll() класса BookSoapController");
-        return ResponseEntity.ok(bookMapper.getListBookFromListBookDto(bookService.findAll()));
+        return ResponseEntity.ok(bookService.findAll());
     }
 
     @Operation(summary = "Получение книги по id посредством внутреннего взаимодействия на основе SOAP")
     @GetMapping("/{bookId}")
     public ResponseEntity<Book> findById(@PathVariable long bookId) {
         log.info("Вызов метода findById() класса BookSoapController с параметром bookId = {}", bookId);
-        return ResponseEntity.ok(bookMapper.getBookFromBookDto(bookService.findById(bookId)));
+        return ResponseEntity.ok(bookService.findById(bookId));
     }
 
     @Operation(summary = "Получение обложки книги по id посредством внутреннего взаимодействия на основе SOAP")
     @GetMapping(value = "/{bookId}/cover", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> findCoverById(@PathVariable long bookId) {
         log.info("Вызов метода findCoverById() класса BookSoapController с параметром bookId = {}", bookId);
-        return ResponseEntity.ok(bookMapper.getCoverFromBookDto(bookService.findById(bookId)));
+        return ResponseEntity.ok(bookService.findCoverById(bookId));
     }
 
     @ExceptionHandler(value = {SoapFaultClientException.class})
