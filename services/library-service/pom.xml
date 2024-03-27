@@ -25,6 +25,7 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <jackson-databind.version>2.15.3</jackson-databind.version>
         <json-smart.version>2.4.10</json-smart.version>
+        <liquibase.version>4.26.0</liquibase.version>
     </properties>
 
     <dependencies>
@@ -114,6 +115,12 @@
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
             <version>${minio.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
         </dependency>
     </dependencies>
 

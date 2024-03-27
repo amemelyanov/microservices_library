@@ -49,3 +49,6 @@ spring:
             hibernate:
                 format_sql: true
         show-sql: false
+    liquibase:
+        change-log: classpath:liquibase-changeLog.xml
+        enabled: true
