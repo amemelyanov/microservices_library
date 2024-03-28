@@ -10,14 +10,33 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+/**
+ * Реализация фильтра отслеживания запросов
+ *
+ * @author Alexander Emelyanov
+ * @version 1.0
+ */
 @Slf4j
 @AllArgsConstructor
 @Order(1)
 @Component
 public class TrackingFilter implements GlobalFilter {
 
+    /**
+     * Объект для доступа к методам FilterUtils
+     */
     private final FilterUtils filterUtils;
 
+    /**
+     * Метод выполняет отслеживание запросов содержащих идентификатор корреляции. Для проверки наличия заголовка
+     * с идентификатором корреляции используется метод {@link TrackingFilter#isCorrelationIdPresent(HttpHeaders)}.
+     * Если идентификатор корреляции отсутствует, то он генерируется с помощью метода
+     * {@link TrackingFilter#generateCorrelationId()} и добавляется в заголовки
+     *
+     * @param exchange объект HTTP запроса
+     * @param chain цепочка фильтров
+     * @return передает значение HTTP запроса следующему фильтру в цепочке
+     */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         HttpHeaders requestHeaders = exchange.getRequest().getHeaders();
@@ -32,11 +51,22 @@ public class TrackingFilter implements GlobalFilter {
         return chain.filter(exchange);
     }
 
-
+    /**
+     * Метод выполняет проверки содержат ли заголовки HTTP запроса идентификатор корреляции. Для проверки вызывается
+     * метод утилитного класса {@link FilterUtils#getCorrelationId(HttpHeaders)}.
+     *
+     * @param requestHeaders заголовки запроса
+     * @return результат проверки содержат ли заголовки идентификатор корреляции
+     */
     private boolean isCorrelationIdPresent(HttpHeaders requestHeaders) {
         return filterUtils.getCorrelationId(requestHeaders) != null;
     }
 
+    /**
+     * Метод выполняет генерацию и возврат нового идентификатора корреляции.
+     *
+     * @return идентификатор корреляции
+     */
     private String generateCorrelationId() {
         return java.util.UUID.randomUUID().toString();
     }

@@ -18,16 +18,33 @@ import ru.job4j.libraryservice.ws.BookDto;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Конфигурация для Kafka
+ *
+ * @author Alexander Emelyanov
+ * @version 1.0
+ */
 @Configuration
 @Slf4j
 public class KafkaConfig {
 
+    /**
+     * Наименование группы потребителей Kafka
+     */
     @Value("${library-project.consumer-group}")
     private String consumerGroups;
 
+    /**
+     * Параметры сервера Kafka
+     */
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
+    /**
+     * Метод создает бин фабрики потребителей.
+     *
+     * @return возвращает фабрику потребителей параметризованную BookDto
+     */
     @Bean
     public ConsumerFactory<String, BookDto> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
@@ -39,6 +56,11 @@ public class KafkaConfig {
                 new JsonDeserializer<>(BookDto.class));
     }
 
+    /**
+     * Метод создает бин фабрики производителей.
+     *
+     * @return возвращает фабрику производителей параметризованную BookDto
+     */
     @Bean
     public ProducerFactory<String, BookDto> producerFactory() {
         Map<String, Object> props = new HashMap<>();
@@ -50,6 +72,11 @@ public class KafkaConfig {
                 new JsonSerializer<>());
     }
 
+    /**
+     * Метод создает бин фабрики контейнеров слушателя Kafka.
+     *
+     * @return возвращает фабрику контейнеров слушателя Kafka параметризованную BookDto
+     */
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, BookDto> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, BookDto> factory =
@@ -59,11 +86,21 @@ public class KafkaConfig {
         return factory;
     }
 
+    /**
+     * Метод создает бин для шаблона ответа Kafka.
+     *
+     * @return возвращает шаблон ответа Kafka параметризованный BookDto
+     */
     @Bean
     public KafkaTemplate<String, BookDto> replyTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 
+    /**
+     * Метод создает бин фабрику контейнеров слушателя Kafka для работы со списком всех книг.
+     *
+     * @return возвращает фабрику контейнеров слушателя Kafka параметризованную BookDto
+     */
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, BookDto> listKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, BookDto> factory =
@@ -73,6 +110,11 @@ public class KafkaConfig {
         return factory;
     }
 
+    /**
+     * Метод создает бин фабрики производителей для работы со списком всех книг.
+     *
+     * @return возвращает фабрику производителей параметризованный ListBookDto
+     */
     @Bean
     public ProducerFactory<String, ListBookDto> listProducerFactory() {
         Map<String, Object> props = new HashMap<>();
@@ -84,6 +126,11 @@ public class KafkaConfig {
                 new JsonSerializer<>());
     }
 
+    /**
+     * Метод создает бин для шаблона ответа Kafka для работы со списком всех книг.
+     *
+     * @return возвращает шаблон ответа Kafka параметризованный ListBookDto
+     */
     @Bean
     public KafkaTemplate<String, ListBookDto> listReplyTemplate() {
         return new KafkaTemplate<>(listProducerFactory());

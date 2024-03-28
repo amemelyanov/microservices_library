@@ -20,26 +20,59 @@ import ru.job4j.restservice.wsdl.BookDto;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Реализация сервиса по работе с книгами с использованием Kafka
+ *
+ * @author Alexander Emelyanov
+ * @version 1.0
+ * @see ru.job4j.restservice.service.BookService
+ */
 @Service
 @Slf4j
 @NoArgsConstructor
 public class BookServiceKafka implements BookService {
 
+    /**
+     * Объект для доступа к методам BookMapper
+     */
     @Autowired
     private BookMapper bookMapper;
 
+    /**
+     * Объект для доступа к методам ReplyingKafkaTemplate<String, BookDto, BookDto>
+     */
     @Autowired
     private ReplyingKafkaTemplate<String, BookDto, BookDto> templateById;
 
+    /**
+     * Объект для доступа к методам ReplyingKafkaTemplate<String, BookDto, ListBookDto>
+     */
     @Autowired
     private ReplyingKafkaTemplate<String, BookDto, ListBookDto> templateAll;
 
+    /**
+     * Наименование топика для отправки объекта dto книги
+     */
     @Value("${library-project.send-topics-by-id}")
     private String sendTopicsById;
 
+    /**
+     * Наименование топика для отправки списка объектов dto книг
+     */
     @Value("${library-project.send-topics-all}")
     private String sendTopicsAll;
 
+    /**
+     * Метод выполняет возврат книги по идентификатору книги. Объект dto книги, созданный
+     * на основе идентификатора книги, передается в вызываемый метод
+     * {@link BookServiceKafka#kafkaRequestReplyById(BookDto)}, который возвращает объект
+     * dto книги, полученный через Kafka. Объект dto книги, преобразованный с помощью метода
+     * {@link BookMapper#getBookFromBookDto(BookDto)} возвращается из метода. Если книга не
+     * найдена на стороне сервера, выбрасывается исключение ResourceNotFoundException.
+     *
+     * @param bookId идентификатор книги
+     * @return картинка обложки книги в виде байтового массива
+     */
     @SneakyThrows
     @Override
     public Book findById(long bookId) {
@@ -53,6 +86,14 @@ public class BookServiceKafka implements BookService {
         return bookMapper.getBookFromBookDto(kafkaRequestReplyById(bookDto));
     }
 
+    /**
+     * Метод выполняет возврат списка всех книг. Для полученния списка книг вызывается метод
+     * {@link BookServiceKafka#kafkaRequestReplyAll(BookDto)}, которому передается новый пустой объект книги.
+     * Возвращенный список объектов dto книг преобразуется в список книг с помощью метода
+     * {@link BookMapper#getListBookFromListBookDto(List)} и возвращается из метода
+     *
+     * @return список всех книг
+     */
     @SneakyThrows
     @Override
     public List<Book> findAll() {
@@ -62,6 +103,17 @@ public class BookServiceKafka implements BookService {
         return bookMapper.getListBookFromListBookDto(kafkaRequestReplyAll(bookDto));
     }
 
+    /**
+     * Метод выполняет возврат картинки обложки книги по идентификатору книги. Объект dto
+     * книги, созданный на основе идентификатора книги, передается в вызываемый метод
+     * {@link BookServiceKafka#kafkaRequestReplyById(BookDto)}, который возвращает объект
+     * dto книги, полученный через Kafka. Объект dto книги, преобразованный с помощью метода
+     * {@link BookMapper#getCoverFromBookDto(BookDto)}, возвращается из метода. Если книга не
+     * найдена на стороне сервера, выбрасывается исключение ResourceNotFoundException.
+     *
+     * @param bookId идентификатор книги
+     * @return картинка обложки книги в виде байтового массива
+     */
     @SneakyThrows
     @Override
     public byte[] findCoverById(long bookId) {
@@ -75,15 +127,22 @@ public class BookServiceKafka implements BookService {
         return bookMapper.getCoverFromBookDto(kafkaRequestReplyById(bookDto));
     }
 
+    /**
+     * Метод выполняет пересылку объекта dto книги через Kafka и возвращает полученный из Kafka
+     * объект dto книги.
+     *
+     * @param bookDto объект dto книги
+     * @return объект dto книги
+     */
     private BookDto kafkaRequestReplyById(BookDto bookDto) throws Exception {
         log.info("Вызов метода kafkaRequestReplyById() класса BookServiceKafka с параметром "
                 + "bookInfo = {}", bookDto);
         ProducerRecord<String, BookDto> record = new ProducerRecord<>(sendTopicsById, bookDto);
         RequestReplyFuture<String, BookDto, BookDto> replyFuture =
                 templateById.sendAndReceive(record);
-        SendResult<String, BookDto> sendResult = replyFuture
-                .getSendFuture()
-                .get(60, TimeUnit.SECONDS);
+//        SendResult<String, BookDto> sendResult = replyFuture
+//                .getSendFuture()
+//                .get(60, TimeUnit.SECONDS);
         ConsumerRecord<String, BookDto> consumerRecord = replyFuture
                 .get(60, TimeUnit.SECONDS);
         BookDto result = consumerRecord.value();
@@ -92,6 +151,13 @@ public class BookServiceKafka implements BookService {
         return result;
     }
 
+    /**
+     * Метод выполняет пересылку объекта dto книги через Kafka и возвращает полученный из Kafka
+     * список объектов dto всех книг.
+     *
+     * @param bookDto объект dto книги
+     * @return список объектов dto всех книг
+     */
     private List<BookDto> kafkaRequestReplyAll(BookDto bookDto) throws Exception {
         log.info("Вызов метода kafkaRequestReplyAll() класса BookServiceKafka с параметром "
                 + "bookInfo = {}", bookDto);

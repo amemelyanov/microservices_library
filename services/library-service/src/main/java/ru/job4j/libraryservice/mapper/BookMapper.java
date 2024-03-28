@@ -7,12 +7,29 @@ import ru.job4j.libraryservice.model.Book;
 import ru.job4j.libraryservice.service.MinioService;
 import ru.job4j.libraryservice.ws.BookDto;
 
+/**
+ * Класс выполняющий преобразование объектов Book в BookDto
+ *
+ * @author Alexander Emelyanov
+ * @version 1.0
+ * @see ru.job4j.libraryservice.model.Book
+ * @see ru.job4j.libraryservice.ws.BookDto
+ */
 @Component
 @AllArgsConstructor
 public class BookMapper {
 
+    /**
+     * Объект для доступа к методам MinioService
+     */
     private final MinioService minioService;
 
+    /**
+     * Метод получает объект книги и возвращает преобразованный объект dto книги.
+     *
+     * @param book книга
+     * @return dto книга
+     */
     public BookDto getBookDtoFromBook(Book book) {
         byte[] cover = minioService.getFile(book.getCoverName()).orElse(new byte[0]);
         String coverAsString = Base64.encodeBase64String(cover);

@@ -14,18 +14,38 @@ import ru.job4j.restservice.service.BookService;
 
 import java.util.List;
 
+/**
+ * Контроллер для работы с книгами через SOAP
+ *
+ * @author Alexander Emelyanov
+ * @version 1.0
+ * @see ru.job4j.restservice.model.Book
+ */
 @Tag(name = "Book SOAP Controller", description = "Book SOAP API")
 @Slf4j
 @RestController
 @RequestMapping(value = "v1/soap/book")
 public class BookSoapController {
 
+    /**
+     * Объект для доступа к методам BookService
+     */
     private final BookService bookService;
 
+    /**
+     * Конструктор
+     *
+     * @param bookService объект для доступа к методам BookService
+     */
     public BookSoapController(@Qualifier("bookServiceSoap") BookService bookService) {
         this.bookService = bookService;
     }
 
+    /**
+     * Метод возвращает список всех книг, для их получения вызывает метод сервисного слоя {@link BookService#findAll()}
+     *
+     * @return список книг
+     */
     @Operation(summary = "Получение списка всех книг посредством внутреннего взаимодействия на основе SOAP")
     @GetMapping("/all")
     public ResponseEntity<List<Book>> findAll() {
@@ -33,6 +53,13 @@ public class BookSoapController {
         return ResponseEntity.ok(bookService.findAll());
     }
 
+    /**
+     * Метод возвращает книгу по переданному клиентом идентификатору, идентификатор передается вызываемому методу
+     * сервисного слоя {@link BookService#findById(long)}, который возвращает найденную книгу.
+     *
+     * @param bookId идентификатор книги
+     * @return книга
+     */
     @Operation(summary = "Получение книги по id посредством внутреннего взаимодействия на основе SOAP")
     @GetMapping("/{bookId}")
     public ResponseEntity<Book> findById(@PathVariable long bookId) {
@@ -40,6 +67,14 @@ public class BookSoapController {
         return ResponseEntity.ok(bookService.findById(bookId));
     }
 
+    /**
+     * Метод возвращает обложку книги в виде байтового массива по переданному клиентом идентификатору,
+     * идентификатор передается вызываемому методу сервисного слоя {@link BookService#findById(long)},
+     * который возвращает найденную книгу.
+     *
+     * @param bookId идентификатор книги
+     * @return обложка книги в виде байтового массива
+     */
     @Operation(summary = "Получение обложки книги по id посредством внутреннего взаимодействия на основе SOAP")
     @GetMapping(value = "/{bookId}/cover", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> findCoverById(@PathVariable long bookId) {
@@ -47,6 +82,14 @@ public class BookSoapController {
         return ResponseEntity.ok(bookService.findCoverById(bookId));
     }
 
+    /**
+     * Выполняет локальный (уровня контроллера) перехват исключений
+     * SoapFaultClientException, в случае перехвата, выполняет логирование
+     * и возвращает клиенту ответ с комментарием исключения.
+     *
+     * @param e перехваченное исключение
+     * @return объект ResponseEntity с описанием исключения
+     */
     @ExceptionHandler(value = {SoapFaultClientException.class})
     @ResponseBody
     public ResponseEntity<String> soapFaultClientException(Exception e) {
@@ -57,6 +100,14 @@ public class BookSoapController {
                 .body(e.getLocalizedMessage());
     }
 
+    /**
+     * Выполняет локальный (уровня контроллера) перехват исключений
+     * Exception, в случае перехвата, выполняет логирование
+     * и возвращает клиенту ответ с комментарием исключения.
+     *
+     * @param e перехваченное исключение
+     * @return объект ResponseEntity с описанием исключения
+     */
     @ExceptionHandler(value = {Exception.class})
     @ResponseBody
     public ResponseEntity<String> connectException(Exception e) {

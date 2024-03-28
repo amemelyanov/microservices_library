@@ -22,18 +22,39 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Конфигурация для Kafka работающего с сущностью dto книги
+ *
+ * @author Alexander Emelyanov
+ * @version 1.0
+ * @see ru.job4j.restservice.wsdl.BookDto
+ */
 @Configuration
 public class KafkaEntityConfig {
 
+    /**
+     * Идентификатор топика ответа Kafka
+     */
     @Value("${library-project.reply-topics-by-id}")
     private String replyTopicsById;
 
+    /**
+     * Наименование группы потребителей Kafka
+     */
     @Value("${library-project.consumer-group}")
     private String consumerGroups;
 
+    /**
+     * Параметры сервера Kafka
+     */
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
+    /**
+     * Метод создает бин фабрики потребителей.
+     *
+     * @return возвращает фабрику потребителей параметризованную BookDto
+     */
     @Bean
     public ConsumerFactory<String, BookDto> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
@@ -46,6 +67,11 @@ public class KafkaEntityConfig {
                 new JsonDeserializer<>(BookDto.class));
     }
 
+    /**
+     * Метод создает бин фабрики производителей.
+     *
+     * @return возвращает фабрику производителей параметризованную BookDto
+     */
     @Bean
     public ProducerFactory<String, BookDto> producerFactory() {
         Map<String, Object> props = new HashMap<>();
@@ -57,6 +83,12 @@ public class KafkaEntityConfig {
                 new JsonSerializer<>());
     }
 
+    /**
+     * Метод создает бин для шаблона ответа Kafka.
+     *
+     * @param repliesContainer контейнер ответа
+     * @return возвращает шаблон ответа Kafka параметризованный BookDto
+     */
     @Bean
     public ReplyingKafkaTemplate<String, BookDto, BookDto> replyingTemplate(
             ConcurrentMessageListenerContainer<String, BookDto> repliesContainer) {
@@ -68,6 +100,12 @@ public class KafkaEntityConfig {
         return replyTemplate;
     }
 
+    /**
+     * Метод создает бин контейнера для шаблона ответа Kafka.
+     *
+     * @param containerFactory фабрика контейнеров
+     * @return возвращает контейнер ответа Kafka параметризованный BookDto
+     */
     @Bean
     public ConcurrentMessageListenerContainer<String, BookDto> repliesContainer(
             ConcurrentKafkaListenerContainerFactory<String, BookDto> containerFactory) {
@@ -77,7 +115,11 @@ public class KafkaEntityConfig {
         return repliesContainer;
     }
 
-
+    /**
+     * Метод создает бин фабрики контейнера слушателя для Kafka.
+     *
+     * @return фабрику контейнеров слушателя Kafka параметризованную BookDto
+     */
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, BookDto> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, BookDto> factory =

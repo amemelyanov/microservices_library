@@ -11,12 +11,34 @@ import ru.job4j.restservice.wsdl.*;
 
 import java.util.List;
 
+/**
+ * Реализация сервиса по работе с книгами с использованием SOAP
+ *
+ * @author Alexander Emelyanov
+ * @version 1.0
+ * @see ru.job4j.restservice.service.BookService
+ */
 @Slf4j
 @AllArgsConstructor
 public class BookServiceSoap extends WebServiceGatewaySupport implements BookService {
 
+    /**
+     * Объект для доступа к методам BookMapper
+     */
     private final BookMapper bookMapper;
 
+    /**
+     * Метод выполняет возврат книги по идентификатору книги. Объект dto книги, созданный
+     * на основе идентификатора книги, передается в вызываемый метод
+     * {@link org.springframework.ws.client.core.WebServiceTemplate#marshalSendAndReceive(Object)},
+     * который возвращает объект response полученный от сервера. Из объекта response извлекается объект dto книги,
+     * который преобразовывается с помощью метода {@link BookMapper#getBookFromBookDto(BookDto)} в книгу
+     * и возвращается из метода. Если книга не найдена на стороне сервера,
+     * выбрасывается исключение ResourceNotFoundException.
+     *
+     * @param bookId идентификатор книги
+     * @return картинка обложки книги в виде байтового массива
+     */
     @Override
     public Book findById(long bookId) {
         log.info("Вызов метода findById() класса BookServiceSoap с параметром bookId = {}", bookId);
@@ -32,6 +54,15 @@ public class BookServiceSoap extends WebServiceGatewaySupport implements BookSer
         return bookMapper.getBookFromBookDto(response.getBookDto());
     }
 
+    /**
+     * Метод выполняет возврат списка всех книг. Для полученния списка книг вызывается метод
+     * {@link org.springframework.ws.client.core.WebServiceTemplate#marshalSendAndReceive(Object)},
+     * который возвращает объект response полученный от сервера. Из объекта response извлекается список объектов dto
+     * книг, который преобразовывается с помощью метода {@link BookMapper#getListBookFromListBookDto(List)} в
+     * список книг и возвращается из метода.
+     *
+     * @return список всех книг
+     */
     @Override
     public List<Book> findAll() {
         log.info("Вызов метода findAll() класса BookServiceSoap");
@@ -42,6 +73,18 @@ public class BookServiceSoap extends WebServiceGatewaySupport implements BookSer
         return bookMapper.getListBookFromListBookDto(response.getBookDto());
     }
 
+    /**
+     * Метод выполняет возврат байтового массива картинки обложки книги по идентификатору книги. Объект dto книги,
+     * созданный на основе идентификатора книги, передается в вызываемый метод
+     * {@link org.springframework.ws.client.core.WebServiceTemplate#marshalSendAndReceive(Object)},
+     * который возвращает объект response полученный от сервера. Из объекта response извлекается объект dto книги,
+     * который преобразовывается с помощью метода {@link BookMapper#getCoverFromBookDto(BookDto)} в байтовый массив
+     * и возвращается из метода. Если книга не найдена на стороне сервера, выбрасывается исключение
+     * ResourceNotFoundException.
+     *
+     * @param bookId идентификатор книги
+     * @return картинка обложки книги в виде байтового массива
+     */
     @Override
     public byte[] findCoverById(long bookId) {
         log.info("Вызов метода findCoverById() класса BookServiceSoap с параметром bookId = {}", bookId);
