@@ -5,6 +5,6 @@ RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
-COPY --from=maven /app/target/*.jar /app/rest-service.jar
-EXPOSE 8080
-CMD java -jar /app/rest-service.jar
+COPY --from=maven /app/target/*.jar /app/eurekaserver.jar
+EXPOSE 8070
+CMD java -jar /app/eurekaserver.jar

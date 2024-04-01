@@ -84,6 +84,7 @@
 	</dependencyManagement>
 
 	<build>
+		<finalName>gatewayserver</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
