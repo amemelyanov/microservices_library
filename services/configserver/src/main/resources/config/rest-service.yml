@@ -1,42 +1,45 @@
 server:
-    port: 8080
+  port: 8080
 spring:
-    main:
-        banner-mode: 'off'
-    kafka:
-        bootstrap-servers: localhost:9092
+  main:
+    banner-mode: 'off'
+  kafka:
+    bootstrap-servers: localhost:9092
 
 # Swagger properties
 springdoc:
-    override-with-generic-response: false
+  override-with-generic-response: false
 
 # Eureka properties
 eureka:
-    client:
-        fetchRegistry: true
-        registerWithEureka: true
-        serviceUrl:
-            defaultZone: http://eurekaserver:8070/eureka/
-    instance:
-        preferIpAddress: true
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://eurekaserver:8070/eureka/
+  instance:
+    preferIpAddress: true
 
 # Kafka variables
 library-project:
-    consumer-group: library-kafka-group
-    reply-topics-all: library-topics-reply-all
-    reply-topics-by-id: library-topics-reply-by-id
-    send-topics-all: library-topics-all
-    send-topics-by-id: library-topics-by-id
+  consumer-group: library-kafka-group
+  reply-topics-all: library-topics-reply-all
+  reply-topics-by-id: library-topics-reply-by-id
+  send-topics-all: library-topics-all
+  send-topics-by-id: library-topics-by-id
 
 # Log properties
 logging:
-    level:
-        org:
-            springframework: ERROR
+  level:
+    org:
+      springframework: ERROR
+    ru:
+      job4j:
         ru:
-            job4j:
-                ru:
-                    job4j:
-                        restservice: INFO
+          job4j:
+            restservice: INFO
 
+rest-service:
+  soapContextPathSoap: ru.job4j.restservice.wsdl
+  defaultUrl: http://library-service:8081/ws
 

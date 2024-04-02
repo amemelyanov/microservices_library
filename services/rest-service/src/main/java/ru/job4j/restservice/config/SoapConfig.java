@@ -1,5 +1,6 @@
 package ru.job4j.restservice.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
@@ -17,6 +18,18 @@ import ru.job4j.restservice.service.BookServiceSoap;
 public class SoapConfig {
 
     /**
+     * Контекстный путь SOAP WSDL
+     */
+    @Value("${rest-service.soapContextPathSoap}")
+    public String soapContextPathSoap;
+
+    /**
+     * WS URL по умолячанию
+     */
+    @Value("${rest-service.defaultUrl}")
+    public String defaultUrl;
+
+    /**
      * Метод создает бин Jaxb2 преобразователя с установкой контекстного пути.
      *
      * @return бин Jaxb2 преобразователя.
@@ -24,7 +37,7 @@ public class SoapConfig {
     @Bean
     public Jaxb2Marshaller marshaller() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        marshaller.setContextPath("ru.job4j.restservice.wsdl");
+        marshaller.setContextPath(soapContextPathSoap);
         return marshaller;
     }
 
@@ -37,7 +50,7 @@ public class SoapConfig {
     @Bean
     public BookServiceSoap bookServiceSoap(Jaxb2Marshaller marshaller) {
         BookServiceSoap service = new BookServiceSoap(new BookMapper());
-        service.setDefaultUri("http://library-service:8081/ws");
+        service.setDefaultUri(defaultUrl);
         service.setMarshaller(marshaller);
         service.setUnmarshaller(marshaller);
         return service;

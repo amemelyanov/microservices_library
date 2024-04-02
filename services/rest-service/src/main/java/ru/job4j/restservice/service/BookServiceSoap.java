@@ -23,6 +23,16 @@ import java.util.List;
 public class BookServiceSoap extends WebServiceGatewaySupport implements BookService {
 
     /**
+     * SoapAction для запроса поиска книги по идентификатору.
+     */
+    public static final String FIND_BOOK_BY_ID_REQUEST = "http://library-service:8081/ws/findBookByIdRequest";
+
+    /**
+     * SoapAction для запроса поиска всех книг.
+     */
+    public static final String FIND_ALL_BOOK_REQUEST = "http://library-service:8081/ws/findAllBooksRequest";
+
+    /**
      * Объект для доступа к методам BookMapper
      */
     private final BookMapper bookMapper;
@@ -45,7 +55,7 @@ public class BookServiceSoap extends WebServiceGatewaySupport implements BookSer
         FindBookByIdRequest request = new FindBookByIdRequest();
         request.setBookId(bookId);
         FindBookByIdResponse response = (FindBookByIdResponse) getWebServiceTemplate().marshalSendAndReceive(request,
-                new SoapActionCallback("http://library-service:8081/ws/findBookByIdRequest"));
+                new SoapActionCallback(FIND_BOOK_BY_ID_REQUEST));
         log.info("Получен ответ от SOAP сервиса в методе findById() класса BookServiceSoap с объектом {}", response);
         BookDto bookDto = response.getBookDto();
         if (bookDto.getId() == 0) {
@@ -68,7 +78,7 @@ public class BookServiceSoap extends WebServiceGatewaySupport implements BookSer
         log.info("Вызов метода findAll() класса BookServiceSoap");
         FindAllBooksRequest request = new FindAllBooksRequest();
         FindAllBooksResponse response = (FindAllBooksResponse) getWebServiceTemplate().marshalSendAndReceive(request,
-                new SoapActionCallback("http://library-service:8081/ws/findAllBooksRequest"));
+                new SoapActionCallback(FIND_ALL_BOOK_REQUEST));
         log.info("Получен ответ от SOAP сервиса в методе findAll() класса BookServiceSoap с объектом {}", response);
         return bookMapper.getListBookFromListBookDto(response.getBookDto());
     }
@@ -91,11 +101,11 @@ public class BookServiceSoap extends WebServiceGatewaySupport implements BookSer
         FindBookByIdRequest request = new FindBookByIdRequest();
         request.setBookId(bookId);
         FindBookByIdResponse response = (FindBookByIdResponse) getWebServiceTemplate().marshalSendAndReceive(request,
-                new SoapActionCallback("http://library-service:8081/ws/findBookByIdRequest"));
+                new SoapActionCallback(FIND_BOOK_BY_ID_REQUEST));
         log.info("Получен ответ от SOAP сервиса в методе findById() класса BookServiceSoap с объектом {}", response);
         BookDto bookDto = response.getBookDto();
         if (bookDto.getId() == 0) {
-            throw new ResourceNotFoundException("Книга не найдена для данного id: " + bookId);
+            throw new ResourceNotFoundException("Не найдена обложка книги для данного id: " + bookId);
         }
         return bookMapper.getCoverFromBookDto(response.getBookDto());
     }

@@ -121,8 +121,7 @@ services:
     ports:
       - "8081:8081"
     environment:
-      - SERVER_PORT= 8888
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db/library
+      - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - db
       - minio
@@ -142,6 +141,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - db
       - minio
@@ -152,11 +153,3 @@ services:
       - gatewayserver
       - library-service
     restart: on-failure
-
-
-# commands to run
-# docker-compose up -d -- run (-d start flag in background);
-# docker-compose down -- stop
-# docker-compose ps -- show running processes
-#  http://localhost:8080/getAllUnits
-#  http://localhost:8080/getOneUnit/1
