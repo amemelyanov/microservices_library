@@ -2,6 +2,7 @@ package ru.job4j.restservice.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +18,6 @@ import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import ru.job4j.restservice.dto.ListBookDto;
-import ru.job4j.restservice.wsdl.BookDto;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -71,29 +71,29 @@ public class KafkaListConfig {
     /**
      * Метод создает бин фабрики производителей.
      *
-     * @return возвращает фабрику производителей параметризованную BookDto
+     * @return возвращает фабрику производителей параметризованную Long
      */
     @Bean
-    public ProducerFactory<String, BookDto> producerFactory2() {
+    public ProducerFactory<String, Long> producerFactory2() {
         Map<String, Object> props = new HashMap<>();
         props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, LongSerializer.class);
         return new DefaultKafkaProducerFactory<>(props, new StringSerializer(),
-                new JsonSerializer<>());
+                new LongSerializer());
     }
 
     /**
      * Метод создает бин для шаблона ответа Kafka.
      *
      * @param repliesContainer2 контейнер ответа
-     * @return возвращает шаблон ответа Kafka параметризованный BookDto и ListBookDto
+     * @return возвращает шаблон ответа Kafka параметризованный Long и ListBookDto
      */
     @Bean
-    public ReplyingKafkaTemplate<String, BookDto, ListBookDto> replyingTemplate2(
+    public ReplyingKafkaTemplate<String, Long, ListBookDto> replyingTemplate2(
             ConcurrentMessageListenerContainer<String, ListBookDto> repliesContainer2) {
-        ReplyingKafkaTemplate<String, BookDto, ListBookDto> replyTemplate =
+        ReplyingKafkaTemplate<String, Long, ListBookDto> replyTemplate =
                 new ReplyingKafkaTemplate<>(producerFactory2(),
                         repliesContainer2);
         replyTemplate.setDefaultReplyTimeout(Duration.ofSeconds(60));

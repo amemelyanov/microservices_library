@@ -155,7 +155,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>wsimport</goal>
+                            <goal>help</goal>
                         </goals>
                     </execution>
                 </executions>

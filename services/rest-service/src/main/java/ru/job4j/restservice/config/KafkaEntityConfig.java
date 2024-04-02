@@ -2,6 +2,7 @@ package ru.job4j.restservice.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -70,32 +71,32 @@ public class KafkaEntityConfig {
     /**
      * Метод создает бин фабрики производителей.
      *
-     * @return возвращает фабрику производителей параметризованную BookDto
+     * @return возвращает фабрику производителей параметризованную Long
      */
     @Bean
-    public ProducerFactory<String, BookDto> producerFactory() {
+    public ProducerFactory<String, Long> producerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, LongSerializer.class);
         return new DefaultKafkaProducerFactory<>(props, new StringSerializer(),
-                new JsonSerializer<>());
+                new LongSerializer());
     }
 
     /**
      * Метод создает бин для шаблона ответа Kafka.
      *
      * @param repliesContainer контейнер ответа
-     * @return возвращает шаблон ответа Kafka параметризованный BookDto
+     * @return возвращает шаблон ответа Kafka параметризованный Long и BookDto
      */
     @Bean
-    public ReplyingKafkaTemplate<String, BookDto, BookDto> replyingTemplate(
+    public ReplyingKafkaTemplate<String, Long, BookDto> replyingTemplate(
             ConcurrentMessageListenerContainer<String, BookDto> repliesContainer) {
-        ReplyingKafkaTemplate<String, BookDto, BookDto> replyTemplate =
+        ReplyingKafkaTemplate<String, Long, BookDto> replyTemplate =
                 new ReplyingKafkaTemplate<>(producerFactory(),
                         repliesContainer);
-        replyTemplate.setDefaultReplyTimeout(Duration.ofSeconds(60));
+        replyTemplate.setDefaultReplyTimeout(Duration.ofSeconds(20));
         replyTemplate.setSharedReplyTopic(true);
         return replyTemplate;
     }

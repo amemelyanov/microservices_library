@@ -26,8 +26,8 @@ public class BookKafkaController {
     private final BookService bookService;
 
     /**
-     * Метод получает объект запроса от клиента через Kafka для поиска книги по идентификатору,
-     * вызвает метод сервисного слоя {@link BookService#findById(long)}, передавая в качестве параметра
+     * Метод получает от клиента идентификатор книги через Kafka, вызывает метод сервисного слоя
+     * {@link BookService#findById(long)}, передавая в качестве параметра
      * идентификатор книги, получает ответ и возвращает книгу клиенту через Kafka.
      *
      * @param consumerRecord запрос клиента
@@ -36,13 +36,13 @@ public class BookKafkaController {
     @KafkaListener(groupId = "${library-project.consumer-group}", topics = "${library-project.send-topics-by-id}",
             containerFactory = "kafkaListenerContainerFactory")
     @SendTo
-    public BookDto listenById(ConsumerRecord<String, BookDto> consumerRecord) {
-        return bookService.findById(consumerRecord.value().getId());
+    public BookDto listenById(ConsumerRecord<String, Long> consumerRecord) {
+        return bookService.findById(consumerRecord.value());
     }
 
     /**
-     * Метод получает объект запроса от клиента через Kafka для поиска всех книг,
-     * вызвает метод сервисного слоя {@link BookService#findAll()}, и возвращает список
+     * Метод получает вызов от клиента через Kafka для поиска всех книг,
+     * вызывает метод сервисного слоя {@link BookService#findAll()}, и возвращает список
      * объектов dto книг клиенту через Kafka.
      *
      * @param consumerRecord запрос клиента
@@ -51,7 +51,7 @@ public class BookKafkaController {
     @KafkaListener(groupId = "${library-project.consumer-group}", topics = "${library-project.send-topics-all}",
             containerFactory = "listKafkaListenerContainerFactory")
     @SendTo
-    public ListBookDto listenAll(ConsumerRecord<String, BookDto> consumerRecord) {
+    public ListBookDto listenAll(ConsumerRecord<String, Long> consumerRecord) {
         return new ListBookDto(bookService.findAll());
     }
 }
