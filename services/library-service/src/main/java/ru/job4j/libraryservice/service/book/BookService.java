@@ -1,4 +1,4 @@
-package ru.job4j.libraryservice.service;
+package ru.job4j.libraryservice.service.book;
 
 import ru.job4j.libraryservice.ws.BookDto;
 

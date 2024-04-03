@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 import ru.job4j.libraryservice.model.Book;
-import ru.job4j.libraryservice.service.MinioService;
+import ru.job4j.libraryservice.service.cover.CoverServiceMinio;
 import ru.job4j.libraryservice.ws.BookDto;
 
 /**
@@ -22,7 +22,7 @@ public class BookMapper {
     /**
      * Объект для доступа к методам MinioService
      */
-    private final MinioService minioService;
+    private final CoverServiceMinio minioService;
 
     /**
      * Метод получает объект книги и возвращает преобразованный объект dto книги.

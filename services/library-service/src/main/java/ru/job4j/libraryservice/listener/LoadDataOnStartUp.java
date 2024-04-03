@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import ru.job4j.libraryservice.service.MinioService;
+import ru.job4j.libraryservice.service.cover.CoverServiceMinio;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,7 +31,7 @@ public class LoadDataOnStartUp {
     /**
      * Объект для доступа к методам MinioService
      */
-    private final MinioService minioService;
+    private final CoverServiceMinio minioService;
 
     /**
      * Параметр указывающий на необходимость загрузки обложек
@@ -54,7 +54,7 @@ public class LoadDataOnStartUp {
     /**
      * Метод загружает список обложек книг в соответствии с настройками. Для преобразования потока данных
      * в файлы используется метод {@link LoadDataOnStartUp#inputStreamToFile(InputStream)},
-     * для загрузки файлов в Minio используется метод {@link MinioService#upload(File, String)}.
+     * для загрузки файлов в Minio используется метод {@link CoverServiceMinio#upload(File, String)}.
      * Если обложка с таким именем в Minio существует, загрузка не выполняется.
      */
     @EventListener(ApplicationReadyEvent.class)

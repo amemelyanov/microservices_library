@@ -1,4 +1,4 @@
-package ru.job4j.libraryservice.service;
+package ru.job4j.libraryservice.repository;
 
 import io.minio.*;
 import lombok.SneakyThrows;
@@ -13,14 +13,14 @@ import java.io.InputStream;
 import java.util.Optional;
 
 /**
- * Сервис по работе с картинками обложек книг
+ * Хранилище картинок обложек книг в Minio
  *
  * @author Alexander Emelyanov
  * @version 1.0
  */
 @Service
 @Slf4j
-public class MinioService {
+public class CoverMinioRepository {
 
     /**
      * Объект для доступа к методам MinioClient
@@ -28,7 +28,7 @@ public class MinioService {
     private final MinioClient minioClient;
 
     /**
-     * Наимнование бакета в Minio
+     * Наименование бакета в Minio
      */
     @Value("${minio.bucket.name}")
     private String bucket;
@@ -38,15 +38,15 @@ public class MinioService {
      *
      * @param minioClient клиент Minio
      */
-    public MinioService(MinioClient minioClient) {
+    public CoverMinioRepository(MinioClient minioClient) {
         this.minioClient = minioClient;
     }
 
     /**
      * Метод получает файл и имя и загружает его в хранилище Minio.
      * Возвращает имя файла. Если корзина в хранилище отсутствует, метод создает ее
-     * с помощью метода {@link MinioService#createBucket()}. Загрузка выполняется
-     * с помощью метода {@link MinioService#saveImage(InputStream, String)} ()}.
+     * с помощью метода {@link CoverMinioRepository#createBucket()}. Загрузка выполняется
+     * с помощью метода {@link CoverMinioRepository#saveImage(InputStream, String)} ()}.
      *
      * @param file файл
      * @param name имя файла
@@ -66,6 +66,28 @@ public class MinioService {
         }
         saveImage(inputStream, name);
         return name;
+    }
+
+
+    /**
+     * Метод получает наименование файла и возвращает изображение обложки в виде
+     * массива байт.
+     *
+     * @param name наименование файла
+     * @return массив байтов содержащих изображение
+     */
+    public Optional<byte[]> getFile(String name) {
+        try (InputStream stream = minioClient.getObject(
+                GetObjectArgs.builder()
+                        .bucket(bucket)
+                        .object(name)
+                        .build())) {
+            byte[] content = IOUtils.toByteArray(stream);
+            return Optional.of(content);
+        } catch (Exception e) {
+            log.error("Обложка с именем {} отсутствует", name, e);
+        }
+        return Optional.empty();
     }
 
     /**
@@ -99,24 +121,4 @@ public class MinioService {
                 .build());
     }
 
-    /**
-     * Метод получает наименование файла и возвращает изображение обложки в виде
-     * массива байт.
-     *
-     * @param name наименование файла
-     * @return массив байтов содержащих изображение
-     */
-    public Optional<byte[]> getFile(String name) {
-        try (InputStream stream = minioClient.getObject(
-                GetObjectArgs.builder()
-                        .bucket(bucket)
-                        .object(name)
-                        .build())) {
-            byte[] content = IOUtils.toByteArray(stream);
-            return Optional.of(content);
-        } catch (Exception e) {
-            log.error("Обложка с именем {} отсутствует", name, e);
-        }
-        return Optional.empty();
-    }
 }

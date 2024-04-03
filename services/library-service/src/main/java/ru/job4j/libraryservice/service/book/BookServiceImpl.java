@@ -1,4 +1,4 @@
-package ru.job4j.libraryservice.service;
+package ru.job4j.libraryservice.service.book;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author Alexander Emelyanov
  * @version 1.0
- * @see ru.job4j.libraryservice.service.BookService
+ * @see BookService
  */
 @Service
 @AllArgsConstructor

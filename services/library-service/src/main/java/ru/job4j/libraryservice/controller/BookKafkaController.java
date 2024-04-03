@@ -6,7 +6,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Component;
 import ru.job4j.libraryservice.dto.ListBookDto;
-import ru.job4j.libraryservice.service.BookService;
+import ru.job4j.libraryservice.service.book.BookService;
 import ru.job4j.libraryservice.ws.BookDto;
 
 /**
