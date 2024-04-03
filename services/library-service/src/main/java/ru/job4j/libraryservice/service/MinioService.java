@@ -56,20 +56,20 @@ public class MinioService {
         try {
             createBucket();
         } catch (Exception e) {
-            log.error("Загрузка картинки неудачна", e);
+            log.error("Создание бакета неудачно", e);
         }
         InputStream inputStream = null;
         try {
             inputStream = new FileInputStream(file);
         } catch (Exception e) {
-            log.error("Загрузка картинки неудачна", e);
+            log.error("Загрузка обложки неудачна", e);
         }
         saveImage(inputStream, name);
         return name;
     }
 
     /**
-     * Метод создает корзину (bucket) в хранилище Minio.
+     * Метод создает корзину (bucket) в хранилище Minio, если бакет отсутствует.
      */
     @SneakyThrows
     private void createBucket() {
@@ -115,7 +115,7 @@ public class MinioService {
             byte[] content = IOUtils.toByteArray(stream);
             return Optional.of(content);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Обложка с именем {} отсутствует", name, e);
         }
         return Optional.empty();
     }
