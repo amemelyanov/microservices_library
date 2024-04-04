@@ -48,14 +48,11 @@ public class BookServiceImpl implements BookService {
 
     /**
      * Метод вызывает метод слоя репозитория {@link BookRepository#findAll()} и использую метод
-     * {@link BookMapper#getBookDtoFromBook(Book)}, возвращает список объектов dto книг.
+     * {@link BookMapper#getListBookDtoFromListBook(List)}, возвращает список объектов dto книг.
      *
      * @return список объектов dto книг
      */
     public List<BookDto> findAll() {
-        List<BookDto> bookDtoList = new ArrayList<>();
-        bookRepository.findAll().forEach(
-                book -> bookDtoList.add(bookMapper.getBookDtoFromBook(book)));
-        return bookDtoList;
+        return bookMapper.getListBookDtoFromListBook(bookRepository.findAll());
     }
 }

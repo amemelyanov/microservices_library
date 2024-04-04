@@ -7,6 +7,9 @@ import ru.job4j.libraryservice.model.Book;
 import ru.job4j.libraryservice.service.cover.CoverServiceMinio;
 import ru.job4j.libraryservice.ws.BookDto;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Класс выполняющий преобразование объектов Book в BookDto
  *
@@ -42,5 +45,17 @@ public class BookMapper {
         bookDto.setYear(book.getYear());
         bookDto.setCover(coverAsString);
         return bookDto;
+    }
+
+    /**
+     * Метод получает объект список книг и возвращает объект список dto книги.
+     *
+     * @param books книга
+     * @return dto книга
+     */
+    public List<BookDto> getListBookDtoFromListBook(List<Book> books) {
+        return books.stream()
+                .map(this::getBookDtoFromBook)
+                .collect(Collectors.toList());
     }
 }

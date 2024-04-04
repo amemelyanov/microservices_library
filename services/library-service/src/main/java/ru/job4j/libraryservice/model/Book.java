@@ -17,6 +17,7 @@ import lombok.*;
 @EqualsAndHashCode(of = "id")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Book {
 
     /**
