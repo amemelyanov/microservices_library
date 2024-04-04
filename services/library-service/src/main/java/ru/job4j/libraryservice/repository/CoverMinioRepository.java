@@ -1,6 +1,7 @@
 package ru.job4j.libraryservice.repository;
 
 import io.minio.*;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.IOUtils;
@@ -18,6 +19,7 @@ import java.util.Optional;
  * @author Alexander Emelyanov
  * @version 1.0
  */
+@RequiredArgsConstructor
 @Service
 @Slf4j
 public class CoverMinioRepository {
@@ -32,15 +34,6 @@ public class CoverMinioRepository {
      */
     @Value("${minio.bucket.name}")
     private String bucket;
-
-    /**
-     * Конструктор
-     *
-     * @param minioClient клиент Minio
-     */
-    public CoverMinioRepository(MinioClient minioClient) {
-        this.minioClient = minioClient;
-    }
 
     /**
      * Метод получает файл и имя и загружает его в хранилище Minio.
@@ -109,7 +102,7 @@ public class CoverMinioRepository {
      * Метод получает входящий поток байтов и имя файла и производит загрузку хранилище данных Minio.
      *
      * @param inputStream входящий поток байтов
-     * @param name имя файла
+     * @param name        имя файла
      */
     @SneakyThrows
     private void saveImage(final InputStream inputStream,

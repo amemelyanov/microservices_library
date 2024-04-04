@@ -115,6 +115,9 @@ public class BookServiceKafka implements BookService {
         log.info("Вызов метода findCoverById() класса BookServiceKafka с параметром bookId = {}", bookId);
         BookDto replyBookDto = kafkaRequestReplyById(bookId);
         if (replyBookDto.getId() == 0) {
+            throw new ResourceNotFoundException("Не найдена книга для данного id: " + bookId);
+        }
+        if (replyBookDto.getCover().length() == 0) {
             throw new ResourceNotFoundException("Не найдена обложка книги для данного id: " + bookId);
         }
         return bookMapper.getCoverFromBookDto(kafkaRequestReplyById(bookId));

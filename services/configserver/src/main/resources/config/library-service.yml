@@ -32,9 +32,7 @@ minio:
     secret: minioadmin
   bucket:
     name: images
-  default:
-    folder: images
-  url: http://loalhost:9000
+  url: http://localhost:9000
   preload-data:
     status: true
     path: minio_img

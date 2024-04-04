@@ -61,7 +61,6 @@ public class LoadDataOnStartUp {
     public void uploadData() {
         if (preloadDataStatus) {
             ClassLoader classLoader = LoadDataOnStartUp.class.getClassLoader();
-            listOfImages.forEach(fileName -> System.out.println(Paths.get(preloadDataPath, fileName)));
             for (String fileName : listOfImages) {
                 Path path = Paths.get(preloadDataPath, fileName);
                 try (InputStream inputStream = classLoader.getResourceAsStream(path.toString())) {

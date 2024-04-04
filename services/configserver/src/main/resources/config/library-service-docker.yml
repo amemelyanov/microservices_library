@@ -8,9 +8,11 @@ minio:
     secret: minioadmin
   bucket:
     name: images
-  default:
-    folder: images
   url: http://minio:9000
+  preload-data:
+    status: true
+    path: minio_img
+    img-list: favorite.jpg;the_count_of_monte_cristo.jpg;war_and_peace.jpg
 
 # Datasource properties
 spring:

@@ -107,6 +107,9 @@ public class BookServiceSoap extends WebServiceGatewaySupport implements BookSer
         if (bookDto.getId() == 0) {
             throw new ResourceNotFoundException("Не найдена обложка книги для данного id: " + bookId);
         }
+        if (bookDto.getCover().length() == 0) {
+            throw new ResourceNotFoundException("Не найдена обложка книги для данного id: " + bookId);
+        }
         return bookMapper.getCoverFromBookDto(response.getBookDto());
     }
 }
