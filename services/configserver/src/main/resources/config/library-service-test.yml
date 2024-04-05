@@ -1,0 +1,25 @@
+server:
+  port: 8081
+
+# Minio properties
+minio:
+  access:
+    name: minioadmin
+    secret: minioadmin
+  bucket:
+    name: images
+  url: http://localhost:9000
+  preload-data:
+    status: true
+    path: minio_img
+    img-list: favorite.jpg;the_count_of_monte_cristo.jpg;war_and_peace.jpg
+
+# Datasource properties
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    password:
+    username: postgres
+    url: jdbc:h2:./testdb;MODE=PostgreSQL;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
+  kafka:
+    bootstrap-servers: kafka:9092
