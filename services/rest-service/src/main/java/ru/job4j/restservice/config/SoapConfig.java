@@ -24,7 +24,7 @@ public class SoapConfig {
     public String soapContextPathSoap;
 
     /**
-     * WS URL по умолячанию
+     * WS URL по умолчанию
      */
     @Value("${rest-service.defaultUrl}")
     public String defaultUrl;

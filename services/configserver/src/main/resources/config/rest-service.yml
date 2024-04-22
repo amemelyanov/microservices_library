@@ -1,10 +1,15 @@
 server:
-  port: 8080
+  port: 8180
 spring:
   main:
     banner-mode: 'off'
   kafka:
     bootstrap-servers: localhost:9092
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/library-realm
 
 # Swagger properties
 springdoc:
