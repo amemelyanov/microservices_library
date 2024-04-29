@@ -1,8 +1,6 @@
-
 package ru.job4j.restservice.wsdl;
 
 import jakarta.xml.bind.annotation.XmlRegistry;
-
 
 /**
  * This object contains factory methods for each 

@@ -30,16 +30,6 @@
         <li><a href="#0603">Запуск проекта с использованием docker-compose</a></li>
         <li><a href="#0604">Работа с проектом</a></li>
 </ol>
-<li><a href="#07">Работа проекта через K8s</a>
-<ol  type="1">
-        <li><a href="#0701">Создание Secret</a></li>
-        <li><a href="#0702">Создание ConfigMap</a></li>
-        <li><a href="#0703">Создание deployment для Postgres</a></li>
-        <li><a href="#0704">Создание deployment для Spring Boot</a></li>
-        <li><a href="#0705">Проверка работоспособности</a></li>
-        <li><a href="#0706">Работа с проектом</a></li>
-</ol>
-</li>
 <li><a href="#contacts">Контакты</a></li>
 </ul>
 
