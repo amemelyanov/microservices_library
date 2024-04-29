@@ -1,0 +1,50 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://libraryservice.job4j.ru/ws"
+           targetNamespace="http://libraryservice.job4j.ru/ws" elementFormDefault="qualified">
+
+    <xs:element name="findBookByIdRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="bookId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="findBookByIdResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="bookDto" type="tns:bookDto"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="findAllBooksRequest">
+        <xs:complexType/>
+    </xs:element>
+
+    <xs:element name="findAllBooksResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="bookDto" type="tns:bookDto" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="serviceStatus">
+        <xs:sequence>
+            <xs:element name="statusCode" type="xs:string"/>
+            <xs:element name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="bookDto">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="description" type="xs:string"/>
+            <xs:element name="author" type="xs:string"/>
+            <xs:element name="pages" type="xs:int"/>
+            <xs:element name="year" type="xs:int"/>
+            <xs:element name="cover" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
